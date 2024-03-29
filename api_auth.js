@@ -1,4 +1,4 @@
-class ApiAuthentication {
+export default class ApiAuthentication {
   constructor(clientId, clientSecret) {
     this.clientId = clientId;
     this.clientSecret = clientSecret;
@@ -29,4 +29,3 @@ class ApiAuthentication {
     };
   }
 }
-module.exports = ApiAuthentication;

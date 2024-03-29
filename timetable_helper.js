@@ -1,4 +1,3 @@
-const { xml2js } = require('xml-js');
 
 class Message {
     constructor(id, code, message, time) {
@@ -10,7 +9,7 @@ class Message {
     
 }
 
-class TimetableHelper {
+export default class TimetableHelper {
 
     constructor(station, apiAuthentication) {
         this.station = station;
@@ -54,7 +53,7 @@ class TimetableHelper {
         const trainList = [];
         const xmlText = await this.getTimetableXML(hour);
         const xmlResult = xml2js(xmlText, { compact: false, spaces: 4 });
-        const trains = xmlResult.elements[0].elements; // Annahme über die Struktur des XML
+        const trains = xmlResult.elements[0].elements;
 
         trains.forEach(train => {
             let tripLabelObject = null;
@@ -139,7 +138,6 @@ class TimetableHelper {
                             if (change.attributes.cpth) trainChanges[changeType === "departure" ? "stations" : "passedStations"] = change.attributes.cpth;
                             if (change.attributes.cp) trainChanges.platform = change.attributes.cp;
                         }
-                        console.log(change.elements)
                         // Prüfen, ob das 'change'-Element untergeordnete 'elements' enthält und dies ein Array ist
                         if (Array.isArray(change.elements)) {
                             change.elements.forEach(msg => {
@@ -157,7 +155,6 @@ class TimetableHelper {
                         }
                     });
                     
-    
                     // Füge die gesammelten Änderungen zum gefundenen Zug hinzu
                     foundTrain.trainChanges = trainChanges;
                 }
@@ -185,5 +182,3 @@ class TimetableHelper {
         return codeObject ? codeObject.message : 'Unbekannte Nachricht'; // Gibt eine Standardnachricht zurück, falls der Code nicht gefunden wurde
     }
 }
-
-module.exports = TimetableHelper;

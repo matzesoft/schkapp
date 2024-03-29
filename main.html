@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Click Demo</title>
+    <style>
+      .button-container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+      #message {
+        text-align: center;
+        margin-top: 20px;
+      }
+    </style>
+</head>
+
+<body>
+
+<div class="button-container">
+  <button id="helloButton">Lade Fahrplan</button>
+</div>
+
+<script src="https://unpkg.com/xml-js/dist/xml-js.min.js" type="module">
+  import { xml2js } from 'https://cdn.skypack.dev/xml-js';
+  import './timetable_helper.js';
+</script>
+<script type="module">
+  import './api_auth.js';
+  import './dbAPI.js';
+  import './station_helper.js';
+</script>
+
+<div id="message"></div>
+
+
+</body>
+</html>

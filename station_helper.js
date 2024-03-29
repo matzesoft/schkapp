@@ -1,7 +1,3 @@
-
-const fs = require('fs');
-const path = require('path');
-
 class Station {
   constructor({ EVA_NR, DS100, IFOPT, NAME, Verkehr, Laenge, Breite, Betreiber_Name, Betreiber_Nr, Status }) {
     this.EVA_NR = EVA_NR;
@@ -35,31 +31,40 @@ function haversineDistance(coords1, coords2) {
   const dLat = toRad(lat2 - lat1);
   const dLon = toRad(lon2 - lon1);
   const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-            Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
-            Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+    Math.sin(dLon / 2) * Math.sin(dLon / 2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   const distance = R * c;
 
   return distance;
 }
 
-class StationHelper {
+export default class StationHelper {
   constructor() {
     this.stationsList = [];
-    this.loadStations();
   }
 
-  loadStations() {
+  async loadStations() {
+    // Verhindere das erneute Laden, falls die Liste bereits gefüllt ist.
     if (this.stationsList.length > 0) return;
 
-    const jsonPath = path.join(__dirname, "./train_stations_list.json");
-    const jsonRaw = fs.readFileSync(jsonPath);
-    const stations = JSON.parse(jsonRaw);
+    try {
+      // Angenommen, die JSON-Datei ist öffentlich zugänglich unter dem gleichen Pfad wie Ihre HTML-Datei.
+      const response = await fetch("./train_stations_list.json");
+      if (!response.ok) throw new Error("Netzwerkantwort war nicht ok.");
 
-    this.stationsList = stations.map(item => new Station(item));
+      const stations = await response.json();
+
+      // Hier wird vorausgesetzt, dass `Station` eine Klasse oder Funktion ist, die Sie definieren,
+      // um ein Stationsobjekt zu instanziieren.
+      this.stationsList = stations.map(item => new Station(item));
+    } catch (error) {
+      console.error("Fehler beim Laden der Stationsliste:", error);
+    }
   }
 
-  findStationsByLatLong(targetLat, targetLong, radius) {
+  async findStationsByLatLong(targetLat, targetLong, radius) {
+    await this.loadStations();
     const results = [];
 
     this.stationsList.forEach(station => {
@@ -74,28 +79,11 @@ class StationHelper {
     return results;
   }
 
-  findStationsByName(query) {
+  async findStationsByName(query) {
+    await this.loadStations();
     return this.stationsList.filter(station => station.NAME.includes(query));
   }
+
 }
-module.exports = StationHelper;
 
-  
-
-
-async function printTrainList(trains) {
-    for (const train of trains) {
-        console.log(`-> ${train.trainType}:`);
-        if (train.stopId) console.log(`Stop ID: ${train.stopId}`);
-        if (train.tripType) console.log(`Trip Type: ${train.tripType}`);
-        if (train.trainNumber) console.log(`Train Number: ${train.trainNumber}`);
-        if (train.trainLine) console.log(`Train Line: ${train.trainLine}`);
-        if (train.platform) console.log(`Platform: ${train.platform}`);
-        if (train.passedStations) console.log(`Passed Stations: ${train.passedStations}`);
-        if (train.stations) console.log(`Stations: ${train.stations}`);
-        if (train.arrival) console.log(`Arrival: ${train.arrival}`);
-        if (train.departure) console.log(`Departure: ${train.departure}`);
-        console.log(""); // Leerzeile für bessere Lesbarkeit
-    }
-}
 
