@@ -6,7 +6,6 @@ class Message {
         this.message = message;
         this.time = time;
     }
-    
 }
 
 export default class TimetableHelper {
@@ -15,7 +14,7 @@ export default class TimetableHelper {
         this.station = station;
         this.apiAuthentication = apiAuthentication;
     }
-    
+
     async getTimetableXML(hour = null, date = null) {
         let hourDate = new Date();
         if (hour !== null) {
@@ -111,74 +110,77 @@ export default class TimetableHelper {
         try {
             const response = await fetch(url, { headers });
             const xmlText = await response.text();
-            
+    
             if (!response.ok) throw new Error(`Request failed with status: ${response.status}`);
     
             // Konvertiere XML in ein JavaScript-Objekt
-            const result = xml2js(xmlText, { compact: false, ignoreComment: true, spaces: 4 });
+            const result = await xml2js(xmlText, { compact: false, ignoreComment: true, spaces: 4 });
             const changedTrains = result.elements[0].elements;
-    
             // Die resultierende Liste aktualisierter Züge
-            const updatedTrains = trains.map(train => {
-                let foundTrain = null;
+            const updatedTrainsPromises = trains.map(async (train) => {
                 const trainChanges = { messages: [] };
-    
-                // Finde den geänderten Zug, der mit dem aktuellen Zug übereinstimmt
                 const changedTrain = changedTrains.find(changed => changed.attributes.id === train.stopId);
-                
-                if (changedTrain) {
-                    foundTrain = train; // Wir haben den Zug gefunden, also verwenden wir das Originalobjekt
     
-                    // Gehe durch alle Änderungen für diesen Zug
-                    changedTrain.elements.forEach(change => {
+                if (changedTrain) {
+                    // Verarbeite alle Änderungen für diesen Zug asynchron
+                    const changePromises = changedTrain.elements.map(async (change) => {
                         if (change.name === "dp" || change.name === "ar") {
-                            // Ihre vorhandene Logik für "dp" und "ar"
                             const changeType = change.name === "dp" ? "departure" : "arrival";
                             if (change.attributes.ct) trainChanges[changeType] = change.attributes.ct;
                             if (change.attributes.cpth) trainChanges[changeType === "departure" ? "stations" : "passedStations"] = change.attributes.cpth;
                             if (change.attributes.cp) trainChanges.platform = change.attributes.cp;
                         }
-                        // Prüfen, ob das 'change'-Element untergeordnete 'elements' enthält und dies ein Array ist
+    
                         if (Array.isArray(change.elements)) {
-                            change.elements.forEach(msg => {
-                                if (msg.name === "msg") {
-                                    // Verwenden der Message-Klasse für jede Nachricht
-                                    const newMessage = new Message(
+                            const messagePromises = change.elements.map(async (msg) => {
+                                if (msg.attributes) {
+                                    const resolvedMessage = await this.resolveMessageByCode(parseInt(msg.attributes.c));
+                                    return new Message(
                                         msg.attributes.id,
                                         msg.attributes.c,
-                                        this.resolveMessageByCode(parseInt(msg.attributes.c)),
+                                        resolvedMessage,
                                         msg.attributes.ts
                                     );
-                                    trainChanges.messages.push(newMessage);
                                 }
                             });
+                            const messages = await Promise.all(messagePromises);
+                            trainChanges.messages.push(...messages.filter(msg => msg !== undefined));
                         }
                     });
-                    
+    
+                    await Promise.all(changePromises);
+    
                     // Füge die gesammelten Änderungen zum gefundenen Zug hinzu
-                    foundTrain.trainChanges = trainChanges;
+                    train.trainChanges = trainChanges;
+                    return train;
                 }
     
-                return foundTrain;
-            }).filter(train => train !== null); // Filtere Züge ohne Änderungen aus
+                return null;
+            });
     
-            return updatedTrains;
+            const updatedTrains = await Promise.all(updatedTrainsPromises);
+            return updatedTrains.filter(train => train !== null);
         } catch (error) {
             console.error(error);
             throw error;
         }
     }
     
-    resolveMessageByCode(code) {
-        // Pfad zur JSON-Datei, angenommen sie liegt im Verzeichnis "static" relativ zur aktuellen Datei
-        const filePath = path.join(__dirname, 'static', 'message_codes.json');
-    
-        // Synchrones Lesen der JSON-Datei
-        const jsonRaw = fs.readFileSync(filePath, { encoding: 'utf8' });
-        const messageCodes = JSON.parse(jsonRaw);
-    
-        // Suche nach dem entsprechenden Code-Objekt
-        const codeObject = messageCodes.find(codeObject => codeObject.code === code);
-        return codeObject ? codeObject.message : 'Unbekannte Nachricht'; // Gibt eine Standardnachricht zurück, falls der Code nicht gefunden wurde
+
+    async resolveMessageByCode(code) {
+        try {
+            const response = await fetch('./message_codes.json');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const messageCodes = await response.json();
+
+            // Suche nach dem entsprechenden Code-Objekt
+            const codeObject = messageCodes.find(codeObject => codeObject.code === code);
+            return codeObject ? codeObject.message : 'Unbekannte Nachricht';
+        } catch (error) {
+            console.error("Fehler beim Laden der Nachrichtencodes:", error);
+            return 'Fehler beim Abrufen der Nachricht';
+        }
     }
 }

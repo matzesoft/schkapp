@@ -9,35 +9,40 @@ async function processTimetable() {
         // Holt den aktuellen Fahrplan
         const auth = new ApiAuthentication("5fd2b016e4dd99c7b316b1e0b0237c0e", "f51572fc813c9361325535f47c17ea2d");
         const stationHelp = new StationHelper();
-        const station = await stationHelp.findStationsByName('Stuttgart');
+        const station = await stationHelp.findStationsByName('Berlin');
         const timetableHelper = new TimetableHelper(station[0], auth);
-        var timetable = await timetableHelper.getTimetable(); 
-        const formatedTrainList = formatTrainList(timetable); 
-        //console.log(formatedTrainList);
-
+        const timetable = await timetableHelper.getTimetable(); 
+              
         // Holt die Änderungen zum Fahrplan und druckt sie
         // Funktioniert nicht guck timetable_helper.js
         var timetableChanges = await timetableHelper.getTimetableChanges(timetable);
-        console.log(timetableChanges);
+        console.log(printTrainDetailsAsJSONSafe(timetableChanges))
     } catch (error) {
         console.error(error);
     }
 }
 
-function formatTrainList(trainList) {
-    return trainList.map(train => `
-                -> ${train.trainType}:
-                Stop ID: ${train.stopId}
-                ${train.tripType ? `Trip Type: ${train.tripType}` : ''}
-                Train Number: ${train.trainNumber}
-                ${train.trainLine ? `Train Line: ${train.trainLine}` : ''}
-                Platform: ${train.platform}
-                ${train.passedStations ? `Passed Stations: ${train.passedStations}` : ''}
-                Stations: ${train.stations}
-                ${train.arrival ? `Arrival: ${stringToDatetime(train.arrival)}` : ''}
-                ${train.departure ? `Departure: ${stringToDatetime(train.departure)}` : ''}
-                
-            `).join('\n');
+function printTrainDetailsAsJSONSafe(data) {
+    const result = data.map(train => ({
+        "StopId": train.stopId ?? '-',
+        "Zugtyp": train.trainType ?? '-',
+        "Zugnummer": train.trainNumber ?? '-',
+        "Plattform": train.platform ?? '-',
+        "Stationen": train.stations ? train.stations.split('|').join(', ') : '-',
+        "Abfahrt": train.departure ? new Date(parseInt(train.departure)).toLocaleString() : '-',
+        "Reiseart": train.tripType ?? 'Unbekannt',
+        "Zuglinie": train.trainLine ?? '-',
+        "Änderungen": train.trainChanges?.messages?.length > 0 ?
+            train.trainChanges.messages.map((message, msgIndex) => ({
+                [`Nachricht Nr. ${msgIndex + 1}`]: {
+                    "code": message.code ?? '-',
+                    "message": message.message ?? '-',
+                    "time": message.time ? new Date(parseInt(message.time)).toLocaleString() : '-'
+                }
+            })) : [{"Keine": "-"}]
+    }));
+
+    return JSON.stringify(result, null, 2);
 }
 
 //Funktion wenn man daten downloaden will 
@@ -55,7 +60,7 @@ function createAndDownloadFile(filename, content) {
 }
 
 //Datum konverter
-function stringToDatetime(s) {
+function formatDate(s) {
     if (s.length !== 10) {
         throw new Error("Der String muss genau 10 Zeichen lang sein.");
     }
