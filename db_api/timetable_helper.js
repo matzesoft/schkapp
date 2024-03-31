@@ -1,3 +1,4 @@
+import 'https://unpkg.com/xml-js/dist/xml-js.min.js';
 
 class Message {
     constructor(id, code, message, time) {
