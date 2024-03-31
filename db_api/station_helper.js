@@ -50,7 +50,7 @@ export default class StationHelper {
 
     try {
       // Angenommen, die JSON-Datei ist öffentlich zugänglich unter dem gleichen Pfad wie Ihre HTML-Datei.
-      const response = await fetch("./train_stations_list.json");
+      const response = await fetch("./db_api/static/train_stations_list.json");
       if (!response.ok) throw new Error("Netzwerkantwort war nicht ok.");
 
       const stations = await response.json();

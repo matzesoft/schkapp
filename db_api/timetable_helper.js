@@ -1,3 +1,4 @@
+import 'https://unpkg.com/xml-js/dist/xml-js.min.js';
 
 class Message {
     constructor(id, code, message, time) {
@@ -169,7 +170,7 @@ export default class TimetableHelper {
 
     async resolveMessageByCode(code) {
         try {
-            const response = await fetch('./message_codes.json');
+            const response = await fetch('./db_api/static/message_codes.json');
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
