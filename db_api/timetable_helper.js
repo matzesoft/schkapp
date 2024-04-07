@@ -24,10 +24,10 @@ export default class TimetableHelper {
 
         let dateString = date ? date.toISOString().slice(2, 10).replace(/-/g, '') : new Date().toISOString().slice(2, 10).replace(/-/g, '');
         let hourString = hourDate.getHours().toString().padStart(2, '0');
-
+        
         const url = `https://apis.deutschebahn.com/db-api-marketplace/apis/timetables/v1/plan/${this.station.EVA_NR}/${dateString}/${hourString}`;
         const headers = this.apiAuthentication.getHeaders();
-
+        
         try {
             const response = await fetch(url, { headers });
 
@@ -53,8 +53,8 @@ export default class TimetableHelper {
         const trainList = [];
         const xmlText = await this.getTimetableXML(hour);
         const xmlResult = xml2js(xmlText, { compact: false, spaces: 4 });
+        
         const trains = xmlResult.elements[0].elements;
-
         trains.forEach(train => {
             let tripLabelObject = null;
             let arrivalObject = null;
@@ -107,15 +107,16 @@ export default class TimetableHelper {
     async getTimetableChanges(trains) {
         const url = `https://apis.deutschebahn.com/db-api-marketplace/apis/timetables/v1/fchg/${this.station.EVA_NR}`;
         const headers = this.apiAuthentication.getHeaders();
-    
+        
         try {
             const response = await fetch(url, { headers });
             const xmlText = await response.text();
-    
+            
             if (!response.ok) throw new Error(`Request failed with status: ${response.status}`);
     
             // Konvertiere XML in ein JavaScript-Objekt
             const result = await xml2js(xmlText, { compact: false, ignoreComment: true, spaces: 4 });
+            console.log(result)
             const changedTrains = result.elements[0].elements;
             // Die resultierende Liste aktualisierter Züge
             const updatedTrainsPromises = trains.map(async (train) => {

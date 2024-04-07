@@ -9,14 +9,17 @@ async function processTimetable() {
         // Holt den aktuellen Fahrplan
         const auth = new ApiAuthentication("5fd2b016e4dd99c7b316b1e0b0237c0e", "f51572fc813c9361325535f47c17ea2d");
         const stationHelp = new StationHelper();
-        const station = await stationHelp.findStationsByName('Berlin');
+        const station = await stationHelp.findStationsByName('Stuttgart Hbf');
+      
+
         const timetableHelper = new TimetableHelper(station[0], auth);
-        const timetable = await timetableHelper.getTimetable(); 
-              
+       
+        const timetable = await timetableHelper.getTimetable();
+
         // Holt die Änderungen zum Fahrplan und druckt sie
-        // Funktioniert nicht guck timetable_helper.js
+
         var timetableChanges = await timetableHelper.getTimetableChanges(timetable);
-        console.log(printTrainDetailsAsJSONSafe(timetableChanges))
+        printTrainDetailsAsJSONSafe(timetableChanges)
     } catch (error) {
         console.error(error);
     }
