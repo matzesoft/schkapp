@@ -24,10 +24,10 @@ export default class TimetableHelper {
 
         let dateString = date ? date.toISOString().slice(2, 10).replace(/-/g, '') : new Date().toISOString().slice(2, 10).replace(/-/g, '');
         let hourString = hourDate.getHours().toString().padStart(2, '0');
-        
+
         const url = `https://apis.deutschebahn.com/db-api-marketplace/apis/timetables/v1/plan/${this.station.EVA_NR}/${dateString}/${hourString}`;
         const headers = this.apiAuthentication.getHeaders();
-        
+
         try {
             const response = await fetch(url, { headers });
 
@@ -53,7 +53,7 @@ export default class TimetableHelper {
         const trainList = [];
         const xmlText = await this.getTimetableXML(hour);
         const xmlResult = xml2js(xmlText, { compact: false, spaces: 4 });
-        
+
         const trains = xmlResult.elements[0].elements;
         trains.forEach(train => {
             let tripLabelObject = null;
@@ -103,26 +103,26 @@ export default class TimetableHelper {
         return trainList;
     }
 
-    // BITTE FIXEN DANKE
     async getTimetableChanges(trains) {
         const url = `https://apis.deutschebahn.com/db-api-marketplace/apis/timetables/v1/fchg/${this.station.EVA_NR}`;
         const headers = this.apiAuthentication.getHeaders();
-        
+
         try {
             const response = await fetch(url, { headers });
             const xmlText = await response.text();
-            
+
             if (!response.ok) throw new Error(`Request failed with status: ${response.status}`);
-    
+
             // Konvertiere XML in ein JavaScript-Objekt
             const result = await xml2js(xmlText, { compact: false, ignoreComment: true, spaces: 4 });
-            console.log(result)
+            
             const changedTrains = result.elements[0].elements;
+
             // Die resultierende Liste aktualisierter Züge
             const updatedTrainsPromises = trains.map(async (train) => {
                 const trainChanges = { messages: [] };
                 const changedTrain = changedTrains.find(changed => changed.attributes.id === train.stopId);
-    
+
                 if (changedTrain) {
                     // Verarbeite alle Änderungen für diesen Zug asynchron
                     const changePromises = changedTrain.elements.map(async (change) => {
@@ -132,7 +132,7 @@ export default class TimetableHelper {
                             if (change.attributes.cpth) trainChanges[changeType === "departure" ? "stations" : "passedStations"] = change.attributes.cpth;
                             if (change.attributes.cp) trainChanges.platform = change.attributes.cp;
                         }
-    
+
                         if (Array.isArray(change.elements)) {
                             const messagePromises = change.elements.map(async (msg) => {
                                 if (msg.attributes) {
@@ -149,25 +149,22 @@ export default class TimetableHelper {
                             trainChanges.messages.push(...messages.filter(msg => msg !== undefined));
                         }
                     });
-    
+
                     await Promise.all(changePromises);
-    
-                    // Füge die gesammelten Änderungen zum gefundenen Zug hinzu
                     train.trainChanges = trainChanges;
                     return train;
                 }
-    
+
                 return null;
             });
-    
+
             const updatedTrains = await Promise.all(updatedTrainsPromises);
             return updatedTrains.filter(train => train !== null);
         } catch (error) {
             console.error(error);
             throw error;
         }
-    }
-    
+    }  
 
     async resolveMessageByCode(code) {
         try {
@@ -177,7 +174,7 @@ export default class TimetableHelper {
             }
             const messageCodes = await response.json();
 
-            // Suche nach dem entsprechenden Code-Objekt
+            // searching code from json
             const codeObject = messageCodes.find(codeObject => codeObject.code === code);
             return codeObject ? codeObject.message : 'Unbekannte Nachricht';
         } catch (error) {

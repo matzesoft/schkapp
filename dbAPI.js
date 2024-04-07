@@ -2,37 +2,28 @@ import ApiAuthentication from './db_api/api_auth.js';
 import StationHelper from './db_api/station_helper.js';
 import TimetableHelper from './db_api/timetable_helper.js';
 
-
-
-async function processTimetable() {
+async function getTraindata() {
     try {
-        // Holt den aktuellen Fahrplan
         const auth = new ApiAuthentication("5fd2b016e4dd99c7b316b1e0b0237c0e", "f51572fc813c9361325535f47c17ea2d");
         const stationHelp = new StationHelper();
         const station = await stationHelp.findStationsByName('Stuttgart Hbf');
-      
-
         const timetableHelper = new TimetableHelper(station[0], auth);
-       
         const timetable = await timetableHelper.getTimetable();
-
-        // Holt die Änderungen zum Fahrplan und druckt sie
-
         var timetableChanges = await timetableHelper.getTimetableChanges(timetable);
-        printTrainDetailsAsJSONSafe(timetableChanges)
+        console.log(printTrainDetailsAsJSON(timetableChanges))
     } catch (error) {
         console.error(error);
     }
 }
 
-function printTrainDetailsAsJSONSafe(data) {
+function printTrainDetailsAsJSON(data) {
     const result = data.map(train => ({
         "StopId": train.stopId ?? '-',
         "Zugtyp": train.trainType ?? '-',
         "Zugnummer": train.trainNumber ?? '-',
         "Plattform": train.platform ?? '-',
         "Stationen": train.stations ? train.stations.split('|').join(', ') : '-',
-        "Abfahrt": train.departure ? new Date(parseInt(train.departure)).toLocaleString() : '-',
+        "Abfahrt": train.departure ? formatDate(train.departure) : '-',
         "Reiseart": train.tripType ?? 'Unbekannt',
         "Zuglinie": train.trainLine ?? '-',
         "Änderungen": train.trainChanges?.messages?.length > 0 ?
@@ -40,15 +31,25 @@ function printTrainDetailsAsJSONSafe(data) {
                 [`Nachricht Nr. ${msgIndex + 1}`]: {
                     "code": message.code ?? '-',
                     "message": message.message ?? '-',
-                    "time": message.time ? new Date(parseInt(message.time)).toLocaleString() : '-'
+                    "time": message.time ? formatDate(message.time) : '-'
                 }
             })) : [{"Keine": "-"}]
     }));
 
     return JSON.stringify(result, null, 2);
 }
+function printTrainMessagesAsJSON(data) {
+    const result = data.map(train => ({
+        "Messages": train.trainChanges?.messages?.length > 0 ?
+            train.trainChanges.messages.map(message => message.message ?? '-') : ["Keine Nachrichten"]
+    }));
 
-//Funktion wenn man daten downloaden will 
+    return JSON.stringify(result, null, 2);
+}
+
+
+
+// Func to download data local
 function createAndDownloadFile(filename, content) {
     const element = document.createElement('a');
     element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(content));
@@ -62,7 +63,7 @@ function createAndDownloadFile(filename, content) {
     document.body.removeChild(element);
 }
 
-//Datum konverter
+// Date converter
 function formatDate(s) {
     if (s.length !== 10) {
         throw new Error("Der String muss genau 10 Zeichen lang sein.");
@@ -77,10 +78,10 @@ function formatDate(s) {
     return new Date(year, month, day, hour, minute).toLocaleString();
 }
 
-// Test Button welcher das processTimetable() startet
+// Button to test functions
 document.getElementById('helloButton').addEventListener('click', async () => {
     try {
-        await processTimetable();
+        await getTraindata();
     } catch (error) {
         console.error('Fehler beim Abrufen des Fahrplans:', error);
     }

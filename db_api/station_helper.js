@@ -13,32 +13,6 @@ class Station {
   }
 }
 
-function normalizeLatOrLongFromStation(station) {
-  const lat = parseFloat(station.Breite.replace(",", "."));
-  const long = parseFloat(station.Laenge.replace(",", "."));
-  return { lat, long };
-}
-
-function haversineDistance(coords1, coords2) {
-  function toRad(x) {
-    return x * Math.PI / 180;
-  }
-
-  const [lat1, lon1] = coords1;
-  const [lat2, lon2] = coords2;
-
-  const R = 6371; // Erdradius in km
-  const dLat = toRad(lat2 - lat1);
-  const dLon = toRad(lon2 - lon1);
-  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
-    Math.sin(dLon / 2) * Math.sin(dLon / 2);
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  const distance = R * c;
-
-  return distance;
-}
-
 export default class StationHelper {
   constructor() {
     this.stationsList = [];
@@ -49,34 +23,15 @@ export default class StationHelper {
     if (this.stationsList.length > 0) return;
 
     try {
-      // Angenommen, die JSON-Datei ist öffentlich zugänglich unter dem gleichen Pfad wie Ihre HTML-Datei.
+      // Loading train station json
       const response = await fetch("./db_api/static/train_stations_list.json");
-      if (!response.ok) throw new Error("Netzwerkantwort war nicht ok.");
-
+      if (!response.ok) throw new Error("train_stations_list not found");
       const stations = await response.json();
 
-      // Hier wird vorausgesetzt, dass `Station` eine Klasse oder Funktion ist, die Sie definieren,
-      // um ein Stationsobjekt zu instanziieren.
       this.stationsList = stations.map(item => new Station(item));
     } catch (error) {
       console.error("Fehler beim Laden der Stationsliste:", error);
     }
-  }
-
-  async findStationsByLatLong(targetLat, targetLong, radius) {
-    await this.loadStations();
-    const results = [];
-
-    this.stationsList.forEach(station => {
-      const { lat, long } = normalizeLatOrLongFromStation(station);
-      const distance = haversineDistance([lat, long], [targetLat, targetLong]);
-
-      if (distance < radius) {
-        results.push(station);
-      }
-    });
-
-    return results;
   }
 
   async findStationsByName(query) {
