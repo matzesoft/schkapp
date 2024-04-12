@@ -121,81 +121,83 @@ export default class TimetableHelper {
 
             allTrainsFromStationWithChanges.forEach(change => {
                 if (change.attributes === listOfTrains)
-            })
-
-
-
-
-
-            /* const changedTrainPromises = trains.map(async (train) => {
-                // Sie können hier das async entfernen, wenn Sie innerhalb der Funktion keine weiteren Promises benutzen.
-                const changedTrain = changedTrains.find(changed => {
-                    //console.log(changed.attributes.id === train.stopId);
-                    return changed.attributes.id === train.stopId;
-                });
-
-                if (!changedTrain) {
-                    //console.log("No matching changed train found for stop ID:", train.stopId);
-                    return null; // oder anderweitig diesen Fall behandeln
+                return
                 }
-
-                return changedTrain;
-            }); */
-            /* 
-                        // Warten auf das Auflösen aller Promises
-                        Promise.all(changedTrainPromises).then((changedTrains) => {
-            
-                        });
-            
-                        // Die resultierende Liste aktualisierter Züge
-                        const updatedTrainsPromises = trains.map(async (train) => {
-            
-            
-                            const trainChanges = { messages: [] };
-                            const changedTrain = changedTrains.find(changed => changed.attributes.id === train.stopId);
-            
-                            if (changedTrain) {
-                                // Verarbeite alle Änderungen für diesen Zug asynchron
-                                const changePromises = changedTrain.elements.map(async (change) => {
-            
-                                    if (change.name === "dp" || change.name === "ar") {
-                                        const changeType = change.name === "dp" ? "departure" : "arrival";
-                                        if (change.attributes.ct) trainChanges[changeType] = change.attributes.ct;
-                                        if (change.attributes.cpth) trainChanges[changeType === "departure" ? "stations" : "passedStations"] = change.attributes.cpth;
-                                        if (change.attributes.cp) trainChanges.platform = change.attributes.cp;
-                                    }
-            
-                                    if (Array.isArray(change.elements)) {
-                                        const messagePromises = change.elements.map(async (msg) => {
-                                            if (msg.attributes) {
-                                                const resolvedMessage = await this.resolveMessageByCode(parseInt(msg.attributes.c));
-                                                return new Message(
-                                                    msg.attributes.id,
-                                                    msg.attributes.c,
-                                                    resolvedMessage,
-                                                    msg.attributes.ts
-                                                );
-                                            }
-                                        });
-                                        const messages = await Promise.all(messagePromises);
-                                        trainChanges.messages.push(...messages.filter(msg => msg !== undefined));
-                                    }
-                                });
-            
-                                await Promise.all(changePromises);
-                                train.trainChanges = trainChanges;
-                                return train;
-                            }
-            
-                            return null;
-                        });
-            
-                        const updatedTrains = await Promise.all(updatedTrainsPromises);
-                        return updatedTrains.filter(train => train !== null); */
+            )
         } catch (error) {
             console.error(error);
             throw error;
         }
+
+
+
+
+
+        /* const changedTrainPromises = trains.map(async (train) => {
+            // Sie können hier das async entfernen, wenn Sie innerhalb der Funktion keine weiteren Promises benutzen.
+            const changedTrain = changedTrains.find(changed => {
+                //console.log(changed.attributes.id === train.stopId);
+                return changed.attributes.id === train.stopId;
+            });
+
+            if (!changedTrain) {
+                //console.log("No matching changed train found for stop ID:", train.stopId);
+                return null; // oder anderweitig diesen Fall behandeln
+            }
+
+            return changedTrain;
+        }); */
+        /* 
+                    // Warten auf das Auflösen aller Promises
+                    Promise.all(changedTrainPromises).then((changedTrains) => {
+        
+                    });
+        
+                    // Die resultierende Liste aktualisierter Züge
+                    const updatedTrainsPromises = trains.map(async (train) => {
+        
+        
+                        const trainChanges = { messages: [] };
+                        const changedTrain = changedTrains.find(changed => changed.attributes.id === train.stopId);
+        
+                        if (changedTrain) {
+                            // Verarbeite alle Änderungen für diesen Zug asynchron
+                            const changePromises = changedTrain.elements.map(async (change) => {
+        
+                                if (change.name === "dp" || change.name === "ar") {
+                                    const changeType = change.name === "dp" ? "departure" : "arrival";
+                                    if (change.attributes.ct) trainChanges[changeType] = change.attributes.ct;
+                                    if (change.attributes.cpth) trainChanges[changeType === "departure" ? "stations" : "passedStations"] = change.attributes.cpth;
+                                    if (change.attributes.cp) trainChanges.platform = change.attributes.cp;
+                                }
+        
+                                if (Array.isArray(change.elements)) {
+                                    const messagePromises = change.elements.map(async (msg) => {
+                                        if (msg.attributes) {
+                                            const resolvedMessage = await this.resolveMessageByCode(parseInt(msg.attributes.c));
+                                            return new Message(
+                                                msg.attributes.id,
+                                                msg.attributes.c,
+                                                resolvedMessage,
+                                                msg.attributes.ts
+                                            );
+                                        }
+                                    });
+                                    const messages = await Promise.all(messagePromises);
+                                    trainChanges.messages.push(...messages.filter(msg => msg !== undefined));
+                                }
+                            });
+        
+                            await Promise.all(changePromises);
+                            train.trainChanges = trainChanges;
+                            return train;
+                        }
+        
+                        return null;
+                    });
+        
+                    const updatedTrains = await Promise.all(updatedTrainsPromises);
+                    return updatedTrains.filter(train => train !== null); */
     }
     // done
     async convertXMLintoJSON(xmlText) {
