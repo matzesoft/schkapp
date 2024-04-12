@@ -9,6 +9,22 @@ class Message {
     }
 }
 
+class Train {
+    constructor(stop_id, trip_type, train_type, train_number, train_line, platform, passed_stations, stations, arrival, departure, train_changes) {
+        this.stop_id = stop_id;
+        this.trip_type = trip_type;
+        this.train_type = train_type;
+        this.train_number = train_number;
+        this.train_line = train_line;
+        this.platform = platform;
+        this.passed_stations = passed_stations;
+        this.stations = stations;
+        this.arrival = arrival;
+        this.departure = departure;
+        this.train_changes = train_changes;
+    }
+}
+
 export default class TimetableHelper {
 
     constructor(station, apiAuthentication) {
@@ -75,14 +91,14 @@ export default class TimetableHelper {
                 return;
             }
 
-            const trainObject = {
-                stopId: train.attributes.id,
-                trainType: tripLabelObject.c,
-                trainNumber: tripLabelObject.n,
-                platform: departureObject.pp,
-                stations: departureObject.ppth,
-                departure: departureObject.pt,
-            };
+            const trainObject = new Train(
+                train.attributes.id,
+                tripLabelObject.c,
+                tripLabelObject.n,
+                departureObject.pp,
+                departureObject.ppth,
+                departureObject.pt
+            );
 
             if ("f" in tripLabelObject) {
                 trainObject.tripType = tripLabelObject.f;
