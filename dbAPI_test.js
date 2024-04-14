@@ -7,7 +7,7 @@ export async function getTraindata() {
     try {
         const auth = new ApiAuthentication("5fd2b016e4dd99c7b316b1e0b0237c0e", "f51572fc813c9361325535f47c17ea2d");
         const stationHelp = new StationHelper();
-        const station = await stationHelp.findStationsByName('Singen');
+        const station = await stationHelp.findStationsByName('Stuttgart');
         
         if(station){
             const timetableHelper = new TimetableHelper(station[0], auth);
