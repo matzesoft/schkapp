@@ -1,29 +1,4 @@
-import 'https://unpkg.com/xml-js/dist/xml-js.min.js';
-
-class Message {
-    constructor(id, code, message, time) {
-        this.id = id;
-        this.code = code;
-        this.message = message;
-        this.time = time;
-    }
-}
-
-class Train {
-    constructor(stop_id, trip_type, train_type, train_number, train_line, platform, passed_stations, stations, arrival, departure, train_changes) {
-        this.stop_id = stop_id;
-        this.trip_type = trip_type;
-        this.train_type = train_type;
-        this.train_number = train_number;
-        this.train_line = train_line;
-        this.platform = platform;
-        this.passed_stations = passed_stations;
-        this.stations = stations;
-        this.arrival = arrival;
-        this.departure = departure;
-        this.train_changes = train_changes;
-    }
-}
+import { xml2js } from "xml-js";
 
 export default class TimetableHelper {
 
@@ -31,13 +6,12 @@ export default class TimetableHelper {
         this.station = station;
         this.apiAuthentication = apiAuthentication;
     }
-
+    // done
     async getTimetableXML(hour = null, date = null) {
         let hourDate = new Date();
         if (hour !== null) {
             hourDate.setHours(hour, 0, 0, 0);
         }
-
         let dateString = date ? date.toISOString().slice(2, 10).replace(/-/g, '') : new Date().toISOString().slice(2, 10).replace(/-/g, '');
         let hourString = hourDate.getHours().toString().padStart(2, '0');
 
@@ -46,7 +20,6 @@ export default class TimetableHelper {
 
         try {
             const response = await fetch(url, { headers });
-
             if (response.status === 410) {
                 // Versucht erneut mit dem nächsten Tag, wenn die Ressource verschwunden ist (Status 410)
                 const nextDay = new Date(hourDate);
@@ -64,138 +37,161 @@ export default class TimetableHelper {
             throw error;
         }
     }
-
+    // done
     async getTimetable(hour = null) {
-        const trainList = [];
-        const xmlText = await this.getTimetableXML(hour);
-        const xmlResult = xml2js(xmlText, { compact: false, spaces: 4 });
+        // Get train data
+        const timetableXML = await this.getTimetableXML(hour);
 
-        const trains = xmlResult.elements[0].elements;
-        trains.forEach(train => {
-            let tripLabelObject = null;
-            let arrivalObject = null;
-            let departureObject = null;
+        // convert into Json
+        const timetableJSON = await this.convertXMLintoJSON(timetableXML);
+        const allTrainsFromStation = timetableJSON.elements[0].elements;
+        const betterTrainList = []
 
-            train.elements.forEach(trainDetail => {
-                if (trainDetail.name === "tl") {
-                    tripLabelObject = trainDetail.attributes;
-                } else if (trainDetail.name === "dp") {
-                    departureObject = trainDetail.attributes;
-                } else if (trainDetail.name === "ar") {
-                    arrivalObject = trainDetail.attributes;
+        // Convert JSON into something readable
+        allTrainsFromStation.forEach(train => {
+            // Initialize the objects for this trains data
+            const trainObj = {
+                trainID: train.attributes.id,
+                tripLabel: {},
+                departure: {},
+                arrival: {}
+            };
+
+            // Process each element related to the train
+            train.elements.forEach(element => {
+                if (element.name === "tl") {
+                    // Collect train type and number
+                    trainObj.tripLabel.zugArt = element.attributes.c;
+                    trainObj.tripLabel.zugNummer = element.attributes.n;
+                } else if (element.name === "dp") {
+                    // Collect departure data
+                    trainObj.departure.abStationNachIrgendwo = element.attributes.ppth;
+                    trainObj.departure.abfahrtAbStation = this.formatDate(element.attributes.pt);
+                } else if (element.name === "ar") {
+                    // Collect arrival data
+                    trainObj.arrival.vonIrgendwoNachStation = element.attributes.ppth;
+                    trainObj.arrival.ankunftInStation = this.formatDate(element.attributes.pt);
                 }
             });
-
-            if (!departureObject) {
-                // Ankunft ohne Abfahrt, weiter zum nächsten Zug
-                return;
-            }
-
-            const trainObject = new Train(
-                train.attributes.id,
-                tripLabelObject.c,
-                tripLabelObject.n,
-                departureObject.pp,
-                departureObject.ppth,
-                departureObject.pt
-            );
-
-            if ("f" in tripLabelObject) {
-                trainObject.tripType = tripLabelObject.f;
-            }
-
-            if ("l" in departureObject) {
-                trainObject.trainLine = departureObject.l;
-            }
-
-            if (arrivalObject) {
-                trainObject.passedStations = arrivalObject.ppth;
-                trainObject.arrival = arrivalObject.pt;
-            }
-
-            trainList.push(trainObject);
+            // After all elements of this train are processed add to list
+            betterTrainList.push(trainObj);
         });
-
-        return trainList;
+        return betterTrainList;
     }
-
-    async getTimetableChanges(trains) {
+    // done
+    async getTimetableChanges(listOfTrains) {
         const url = `https://apis.deutschebahn.com/db-api-marketplace/apis/timetables/v1/fchg/${this.station.EVA_NR}`;
         const headers = this.apiAuthentication.getHeaders();
+        const changesTrainList = []
 
         try {
             const response = await fetch(url, { headers });
-            const xmlText = await response.text();
-
             if (!response.ok) throw new Error(`Request failed with status: ${response.status}`);
+            const timetableChangesXML = await response.text();
+            const timetableChangesJSON = await this.convertXMLintoJSON(timetableChangesXML);
+            const allTrainsFromStationWithChanges = timetableChangesJSON.elements[0].elements;
 
-            // Konvertiere XML in ein JavaScript-Objekt
-            const result = await xml2js(xmlText, { compact: false, ignoreComment: true, spaces: 4 });
-            
-            const changedTrains = result.elements[0].elements;
+            // create a idMap so its faster to merge 
+            let trainIdMap = listOfTrains.reduce((acc, obj) => {
+                acc[obj.trainID] = obj;
+                return acc;
+            }, {});    
 
-            // Die resultierende Liste aktualisierter Züge
-            const updatedTrainsPromises = trains.map(async (train) => {
-                const trainChanges = { messages: [] };
-                const changedTrain = changedTrains.find(changed => changed.attributes.id === train.stopId);
+            // Collecting from API specifig Changes and push it into a changesTrainList
+            allTrainsFromStationWithChanges.forEach(train => {
+                const changesObj = {
+                    trainID: train.attributes.id,
+                    changeMessage: {},
+                    departure: {},
+                    arrival: {}
+                };
+                
+                train.elements?.forEach(async element => {
+                    if (element.name === "m") {
+                        changesObj.changeMessage.info = element.attributes.cat;
+                    } else if (element.name === "dp") { 
+                        changesObj.departure.neueAbfahrtsZeit = element.attributes?.ct ? this.formatDate(element.attributes.ct) : {};
+                        changesObj.departure.abfahrtNachricht = await this.messageResolver(element.elements);
+                    } else if (element.name === "ar") {
+                        changesObj.arrival.neueAnkunftszeit = element.attributes?.ct ? this.formatDate(element.attributes.ct) : {};
+                        changesObj.arrival.ankunftNachricht = await this.messageResolver(element.elements);
+                    }
 
-                if (changedTrain) {
-                    // Verarbeite alle Änderungen für diesen Zug asynchron
-                    const changePromises = changedTrain.elements.map(async (change) => {
-                        if (change.name === "dp" || change.name === "ar") {
-                            const changeType = change.name === "dp" ? "departure" : "arrival";
-                            if (change.attributes.ct) trainChanges[changeType] = change.attributes.ct;
-                            if (change.attributes.cpth) trainChanges[changeType === "departure" ? "stations" : "passedStations"] = change.attributes.cpth;
-                            if (change.attributes.cp) trainChanges.platform = change.attributes.cp;
-                        }
-
-                        if (Array.isArray(change.elements)) {
-                            const messagePromises = change.elements.map(async (msg) => {
-                                if (msg.attributes) {
-                                    const resolvedMessage = await this.resolveMessageByCode(parseInt(msg.attributes.c));
-                                    return new Message(
-                                        msg.attributes.id,
-                                        msg.attributes.c,
-                                        resolvedMessage,
-                                        msg.attributes.ts
-                                    );
-                                }
-                            });
-                            const messages = await Promise.all(messagePromises);
-                            trainChanges.messages.push(...messages.filter(msg => msg !== undefined));
-                        }
-                    });
-
-                    await Promise.all(changePromises);
-                    train.trainChanges = trainChanges;
-                    return train;
+                })
+                changesTrainList.push(changesObj);
                 }
-
-                return null;
+            )
+            // compare current Trains with the changesTrainList and merge the changes into the normal Train
+            changesTrainList.forEach(element => {
+                let id = element.trainID;
+                if (trainIdMap.hasOwnProperty(id)) {
+                    trainIdMap[id].trainChanges = element;
+                }
             });
+            return listOfTrains;
 
-            const updatedTrains = await Promise.all(updatedTrainsPromises);
-            return updatedTrains.filter(train => train !== null);
         } catch (error) {
             console.error(error);
             throw error;
         }
-    }  
+    }
 
+    // done
+    async convertXMLintoJSON(xmlText) {
+        const options = {
+            compact: false,
+            ignoreComment: true,
+            spaces: 4
+        };
+
+        const jsonResult = xml2js(xmlText, options);
+        return jsonResult
+    }
+    // done
     async resolveMessageByCode(code) {
         try {
             const response = await fetch('./db_api/static/message_codes.json');
             if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                throw new Error(`could not found json ${response.status}`);
             }
             const messageCodes = await response.json();
-
+           
             // searching code from json
-            const codeObject = messageCodes.find(codeObject => codeObject.code === code);
+            const codeObject = messageCodes.find(codeObject => codeObject.code == code);
             return codeObject ? codeObject.message : 'Unbekannte Nachricht';
         } catch (error) {
             console.error("Fehler beim Laden der Nachrichtencodes:", error);
             return 'Fehler beim Abrufen der Nachricht';
         }
+    }
+    // done
+    formatDate(s) {
+        if (s.length !== 10) {
+            throw new Error("Der String muss genau 10 Zeichen lang sein.");
+        }
+
+        const year = parseInt(s.substring(0, 2), 10) + 2000;
+        const month = parseInt(s.substring(2, 4), 10) - 1;
+        const day = parseInt(s.substring(4, 6), 10);
+        const hour = parseInt(s.substring(6, 8), 10);
+        const minute = parseInt(s.substring(8, 10), 10);
+
+        return new Date(year, month, day, hour, minute).toLocaleString();
+    }
+    // done
+    async messageResolver(messageList){
+        const betterMessageList = []
+
+        messageList?.forEach(async element => {
+            const betterMessageObj = {}
+            
+            betterMessageObj.message = await this.resolveMessageByCode(element.attributes.c);
+            
+            betterMessageObj.randomTime = this.formatDate(element.attributes.ts);
+            betterMessageList.push(betterMessageObj);
+        })
+        return betterMessageList
+
+
     }
 }
