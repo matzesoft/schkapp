@@ -1,6 +1,6 @@
-import ApiAuthentication from './db_api/api_auth.js';
-import StationHelper from './db_api/station_helper.js';
-import TimetableHelper from './db_api/timetable_helper.js';
+import ApiAuthentication from './api_auth.js';
+import StationHelper from './station_helper.js';
+import TimetableHelper from './timetable_helper.js';
 
 export async function getTraindata() {
     

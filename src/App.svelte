@@ -2,7 +2,7 @@
   import svelteLogo from './assets/svelte.svg'
   import viteLogo from '/vite.svg'
   import Counter from './lib/Counter.svelte'
-  import '../dbAPI_test.js';
+  import '../db_api/db_api.js';
 </script>
 
 <main>

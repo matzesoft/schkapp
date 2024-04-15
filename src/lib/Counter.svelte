@@ -1,5 +1,5 @@
 <script>
-  import {getTraindata} from '../../dbAPI_test.js';
+  import {getTraindata} from '../../db_api/db_api.js';
   let count = 0
   const increment = () => {
     count += 1
