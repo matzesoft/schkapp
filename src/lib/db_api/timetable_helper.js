@@ -150,7 +150,7 @@ export default class TimetableHelper {
     // done
     async resolveMessageByCode(code) {
         try {
-            const response = await fetch('./db_api/static/message_codes.json');
+            const response = await fetch('./src/lib/db_api/static/message_codes.json');
             if (!response.ok) {
                 throw new Error(`could not found json ${response.status}`);
             }
