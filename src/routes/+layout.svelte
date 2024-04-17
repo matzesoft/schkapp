@@ -1,4 +1,5 @@
 <script>
+    const appName = 'Schkapp';
 </script>
 
 <main>

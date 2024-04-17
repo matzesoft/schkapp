@@ -1,5 +1,8 @@
 <script>
     import {getTraindata} from '$lib/db_api/db_api.js';
+    function goToGame() {
+
+    }
 </script>
 
 <main>
@@ -7,7 +10,7 @@
         Get Traindata
     </button>
 
-    <button>
+    <button on:click={goToGame}>
         <a href="/game">
             Zum Spiel
         </a>
