@@ -4,7 +4,7 @@
     import SelectTrains from "./SelectTrains.svelte";
     import PlaceBet from "./PlaceBet.svelte";
     import EndScreen from "./EndScreen.svelte";
-    $: gameStep = 0;
+    $: gameStep = 5;
 
     function SelectTrain() {
         gameStep = 0;
@@ -28,7 +28,7 @@
     {:else if gameStep === 2}
         <EndScreen />
     {:else}
-        <p>Unknown game step</p>
+        <h2>Unknown game Status</h2>
     {/if}
 
 </main>
