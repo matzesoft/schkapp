@@ -7,11 +7,16 @@
         <div class="top-bar">
             <h1>Schkapp</h1>
         </div>
-        <slot></slot>
+        <div class="content">
+            <slot></slot>
+        </div>
     </div>
 </main>
 
 <style>
+    .content {
+        padding-top: 50px; /* This should be equal to the height of the top bar */
+    }
     .background {
         position: fixed;
         top: 0;
