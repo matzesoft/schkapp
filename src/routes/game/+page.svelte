@@ -4,7 +4,7 @@
     import SelectTrains from "./SelectTrains.svelte";
     import PlaceBet from "./PlaceBet.svelte";
     import EndScreen from "./EndScreen.svelte";
-    $: gameStep = 5;
+    $: gameStep = 0;
 
     function SelectTrain() {
         gameStep = 0;
