@@ -1,15 +1,7 @@
+
 <script>
     $: trainID = 1;
 
-    function trainInformation(trainID) {
-        if (trainID === 1) {
-            return "ICE Stuttgart - Hamburg"
-        } else if (trainID === 2) {
-            return "ICE Stuttgart - Schkevhausen"
-        } else {
-            return "RE 789";
-        }
-    }
     function incrementTrainID() {
         trainID++;
         if (trainID > 3) {
