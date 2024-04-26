@@ -1,10 +1,8 @@
-import {GlobalGame} from "$lib/game_state/GlobalGame.js";
 import {GameRound} from "$lib/game_state/GameRound.js";
 
 /** @type {import('./$types').PageServerLoad} */
 export async function load({ cookies }) {
-    const globalGame = new GlobalGame(cookies.get('global_game'));
-    const gameRound = globalGame.gameRound;
+    const gameRound = new GameRound(cookies.get('game_round'));
 
     console.log(gameRound.step);
 
@@ -14,8 +12,7 @@ export async function load({ cookies }) {
 export const actions = {
 
     nextRoundStep: async ({ request, cookies }) => {
-        const globalGame = new GlobalGame(cookies.get('global_game'));
-        const gameRound = globalGame.gameRound;
+        const gameRound = new GameRound(cookies.get('game_round'));
 
         if (gameRound.step < 2) {
             gameRound.step += 1;
@@ -23,6 +20,6 @@ export const actions = {
 
         console.log("New game state: " + gameRound.step);
 
-        cookies.set('global_game', globalGame.toJson(), { path: '/' });
+        cookies.set('game_round', gameRound.toJson(), { path: '/' });
     },
 };
