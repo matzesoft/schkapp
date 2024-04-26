@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Lilita+One&display=swap');
+
+:root {
+    font-family: "Lilita One", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+button {
+    font-family: "Lilita One", sans-serif;
+    background-color: #2BC0E0;
+    color: black;
+    padding: 14px 20px;
+    cursor: pointer;
+}

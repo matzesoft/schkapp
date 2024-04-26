@@ -1,5 +1,6 @@
 <script>
-    import '../app.css';
+    import './styles.css';
+
     const appName = 'Schkapp';
 </script>
 
