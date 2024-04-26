@@ -1,12 +1,11 @@
 <script>
     /** @type {import('./$types').PageData} */
-    export let data;
     import SelectTrains from "./SelectTrains.svelte";
     import PlaceBet from "./PlaceBet.svelte";
     import EndScreen from "./EndScreen.svelte";
-    $: gameStep = 0;
+    export let data;
+    $: gameStep = data.gameRound;
     let y;
-    function nextStep() {gameStep++;if(gameStep > 2) gameStep = 0;} //select Next Player!!!
     function SelectTrain() {gameStep = 0;}
     function placeBet() {gameStep = 1;}
     function resultScreen() {gameStep = 2;}
@@ -28,7 +27,9 @@
     {:else}
         <h1>Unknown game Status</h1>
     {/if}
-    <button on:click={nextStep}>NEXT!</button>
+    <form method="POST" action="?/nextRoundStep">
+        <button>NEXT!</button>
+    </form>
 </main>
 </div>
 

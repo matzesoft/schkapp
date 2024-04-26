@@ -1,8 +1,28 @@
-import { error } from '@sveltejs/kit';
+import {GlobalGame} from "$lib/game_state/GlobalGame.js";
+import {GameRound} from "$lib/game_state/GameRound.js";
 
 /** @type {import('./$types').PageServerLoad} */
-export async function load({ params }) {
-    return {text: "Hello World from Server !"};
+export async function load({ cookies }) {
+    const globalGame = new GlobalGame(cookies.get('global_game'));
+    const gameRound = globalGame.gameRound;
 
-    error(404, 'Not found');
+    console.log(gameRound.step);
+
+    return {gameRound: gameRound.step};
 }
+
+export const actions = {
+
+    nextRoundStep: async ({ request, cookies }) => {
+        const globalGame = new GlobalGame(cookies.get('global_game'));
+        const gameRound = globalGame.gameRound;
+
+        if (gameRound.step < 2) {
+            gameRound.step += 1;
+        }
+
+        console.log("New game state: " + gameRound.step);
+
+        cookies.set('global_game', globalGame.toJson(), { path: '/' });
+    },
+};
