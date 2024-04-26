@@ -10,6 +10,11 @@ button {
     font-family: "Lilita One", sans-serif;
     background-color: #2BC0E0;
     color: black;
-    padding: 14px 20px;
+    width: 250px;
+    height: 70px;
     cursor: pointer;
+}
+.center-button {
+    display: block;
+    margin: auto;
 }
