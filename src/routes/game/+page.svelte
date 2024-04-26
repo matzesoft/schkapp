@@ -6,11 +6,13 @@
     import EndScreen from "./EndScreen.svelte";
     $: gameStep = 0;
     let y;
+    function nextStep() {gameStep++;if(gameStep > 2) gameStep = 0;} //select Next Player!!!
     function SelectTrain() {gameStep = 0;}
     function placeBet() {gameStep = 1;}
     function resultScreen() {gameStep = 2;}
 
 </script>
+
 <svelte:window bind:scrollY={y} />
 
 <div id="scroll-content">
@@ -26,11 +28,10 @@
     {:else}
         <h1>Unknown game Status</h1>
     {/if}
-
+    <button on:click={nextStep}>NEXT!</button>
 </main>
 </div>
 
-//TODO: NEXT BUTTON ADD AND CENTER IT
 <button on:click={SelectTrain}>Züge Auswählen</button>
 <button on:click={placeBet}>Wette Plazieren</button>
 <button on:click={resultScreen}>Ergebnisse</button>

@@ -4,3 +4,8 @@ button {
     padding: 14px 20px;
     cursor: pointer;
 }
+.center-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
