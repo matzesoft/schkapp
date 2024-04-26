@@ -6,15 +6,9 @@
     import EndScreen from "./EndScreen.svelte";
     $: gameStep = 0;
     let y;
-    function SelectTrain() {
-        gameStep = 0;
-    }
-    function placeBet() {
-        gameStep = 1;
-    }
-    function resultScreen() {
-        gameStep = 2;
-    }
+    function SelectTrain() {gameStep = 0;}
+    function placeBet() {gameStep = 1;}
+    function resultScreen() {gameStep = 2;}
 
 </script>
 <svelte:window bind:scrollY={y} />
@@ -30,7 +24,7 @@
     {:else if gameStep === 2}
         <EndScreen />
     {:else}
-        <h2>Unknown game Status</h2>
+        <h1>Unknown game Status</h1>
     {/if}
 
 </main>
