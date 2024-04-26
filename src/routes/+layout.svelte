@@ -1,4 +1,5 @@
 <script>
+    import '../app.css';
     const appName = 'Schkapp';
 </script>
 
