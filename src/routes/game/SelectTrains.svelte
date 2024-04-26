@@ -25,7 +25,7 @@
     {/each}
     Selected Train: {selectedTrain}
 
-    <button on:click={addTrain}>Add Train</button>
+    <!-- Add Train kann man Entfernen <button on:click={addTrain}>Add Train</button> -->
 </main>
 
 

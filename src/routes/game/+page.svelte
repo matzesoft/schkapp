@@ -5,6 +5,9 @@
     import EndScreen from "./EndScreen.svelte";
     export let data;
     $: gameStep = data.gameRound;
+    let plyers = [{ id: 0, name: "Kevin" }, { id: 1, name: "Sven"}, { id: 2, name: "EEMA"}];
+    $: currentPlayer = plyers[gameStep].name;
+
     let y;
     function SelectTrain() {gameStep = 0;}
     function placeBet() {gameStep = 1;}
@@ -16,26 +19,32 @@
 
 <div id="scroll-content">
 <main>
-    <h3>//TODO: ADD PLAYER Game</h3>
 
     {#if gameStep === 0}
+        //TODO ADD PLAYER
+        <h3>Current Player: {currentPlayer}</h3>
         <SelectTrains />
     {:else if gameStep === 1}
+        <h3>Current Player: {currentPlayer}</h3>
         <PlaceBet />
     {:else if gameStep === 2}
+        <h1>GAME OVER!</h1>
         <EndScreen />
     {:else}
         <h1>Unknown game Status</h1>
     {/if}
     <form method="POST" action="?/nextRoundStep">
-        <button>NEXT!</button>
+        <button class="center-button">NEXT!</button>
     </form>
 </main>
 </div>
 
+<!-- Zum Debuggen nützlich
 <button on:click={SelectTrain}>Züge Auswählen</button>
 <button on:click={placeBet}>Wette Plazieren</button>
 <button on:click={resultScreen}>Ergebnisse</button>
+-->
+
 <div>{@html data.text}</div>
 
 <style>
@@ -45,6 +54,6 @@
     }
     main{
         background-color: rgba(250, 250, 250, 0.9);
-        padding: 10px;
+        padding: 5px;
     }
 </style>

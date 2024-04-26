@@ -4,6 +4,7 @@ export default class ApiAuthentication {
     this.clientSecret = clientSecret;
   }
 
+  // Testing the credentials by sending a request to the DB API
   async testCredentials() {
     try {
       const response = await fetch("https://apis.deutschebahn.com/db-api-marketplace/apis/timetables/v1/station/BLS", {
@@ -21,6 +22,7 @@ export default class ApiAuthentication {
     }
   }
 
+  // Getter to get the headers for the requests to the DB API
   getHeaders() {
     return {
       "DB-Api-Key": this.clientSecret,

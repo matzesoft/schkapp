@@ -6,7 +6,9 @@ export default class TimetableHelper {
         this.station = station;
         this.apiAuthentication = apiAuthentication;
     }
-    // done
+
+    /* getTimetableXML asks DB API for the timetable for the current time and date
+    DB API will return a XML file with the timetable */
     async getTimetableXML(hour = null, date = null) {
         let hourDate = new Date();
         if (hour !== null) {
@@ -37,8 +39,10 @@ export default class TimetableHelper {
             throw error;
         }
     }
-    // done
+
+    // getTimetable will start getTimetableXML and convert the XML into JSON
     async getTimetable(hour = null) {
+
         // Get train data
         const timetableXML = await this.getTimetableXML(hour);
 
@@ -78,7 +82,9 @@ export default class TimetableHelper {
         });
         return betterTrainList;
     }
-    // done
+
+    /* getTimetableChanges gets from the API the changes for the current Station
+    Compares the Changes with the current Trains and merges them */
     async getTimetableChanges(listOfTrains) {
         const url = `https://apis.deutschebahn.com/db-api-marketplace/apis/timetables/v1/fchg/${this.station.EVA_NR}`;
         const headers = this.apiAuthentication.getHeaders();
@@ -136,7 +142,7 @@ export default class TimetableHelper {
         }
     }
 
-    // done
+    // Converts XML into JSON
     async convertXMLintoJSON(xmlText) {
         const options = {
             compact: false,
@@ -147,7 +153,7 @@ export default class TimetableHelper {
         const jsonResult = xml2js(xmlText, options);
         return jsonResult
     }
-    // done
+    // Resolve the message by code from JSON file called message_codes.json
     async resolveMessageByCode(code) {
         try {
             const response = await fetch('./src/lib/db_api/static/message_codes.json');
@@ -164,7 +170,7 @@ export default class TimetableHelper {
             return 'Fehler beim Abrufen der Nachricht';
         }
     }
-    // done
+    // Convfer the date into a readable format
     formatDate(s) {
         if (s.length !== 10) {
             throw new Error("Der String muss genau 10 Zeichen lang sein.");
@@ -178,7 +184,7 @@ export default class TimetableHelper {
 
         return new Date(year, month, day, hour, minute).toLocaleString();
     }
-    // done
+    // Overall resolver for the messages by using the resolveMessageByCode and formatDate
     async messageResolver(messageList){
         const betterMessageList = []
 
