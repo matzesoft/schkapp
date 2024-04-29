@@ -4,6 +4,11 @@ import {GameRound} from "$lib/game_state/GameRound.js";
 export async function load({ cookies }) {
     const gameRound = new GameRound(cookies.get('game_round'));
 
+    if (gameRound.step === undefined) {
+        // TODO: Load trains from API and get player count
+        gameRound.createRound(trains, 4);
+    }
+
     console.log(gameRound.step);
 
     return {gameRound: gameRound.step};

@@ -5,10 +5,15 @@ export class GameRound {
 
             this.playerCount = jsonData.playerCount;
             this.step = jsonData.step;
-        } else {
-            this.playerCount = 0;
-            this.step = 0;
         }
+    }
+
+    createRound(trains, playerCount) {
+        this.step = 0;
+        this.playerCount = playerCount;
+
+        // Store trains to use for this round
+        this.trains = trains;
     }
 
     toJson() {
