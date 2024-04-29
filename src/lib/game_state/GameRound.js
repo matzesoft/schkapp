@@ -5,6 +5,9 @@ export class GameRound {
 
             this.playerCount = jsonData.playerCount;
             this.step = jsonData.step;
+        } else {
+            this.step = 0;
+            this.playerCount = 0;
         }
     }
 

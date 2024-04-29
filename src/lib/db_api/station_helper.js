@@ -27,7 +27,7 @@ export default class StationHelper {
 
     try {
       // Load the stations list from the static json file
-      const response = await fetch("./src/lib/db_api/static/train_stations_list.json");
+      const response = await fetch("$lib/db_api/static/train_stations_list.json");
       if (!response.ok) throw new Error("train_stations_list not found");
       const stations = await response.json();
 
