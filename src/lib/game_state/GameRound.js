@@ -1,3 +1,5 @@
+import {Schkubitrains} from "$lib/game_state/Schkubitrains.js";
+
 export class GameRound {
     constructor(serialized = undefined) {
         if (serialized) {
@@ -5,13 +7,16 @@ export class GameRound {
 
             this.playerCount = jsonData.playerCount;
             this.step = jsonData.step;
+            this.trains = jsonData.trains;
         } else {
             this.step = 0;
             this.playerCount = 0;
+            this.trains = [];
         }
+        this.schkubitrains = new Schkubitrains();
     }
 
-    createRound(trains, playerCount) {
+    async createRound(trains, playerCount) {
         this.step = 0;
         this.playerCount = playerCount;
 
@@ -22,7 +27,8 @@ export class GameRound {
     toJson() {
         return JSON.stringify({
             playerCount: this.playerCount,
-            step: this.step
+            step: this.step,
+            trains: this.trains
         });
     }
 }

@@ -1,11 +1,14 @@
 
 <script>
+    //TODO: $: trains = data.trains;
     $: trainID = 1;
     export let selectedTrain = null;
+
 
     function selectTrain(trainID) {
         selectedTrain = trainID;
     }
+
     let trains = [{ id: 332, type:"ICE" , name: "Stuttgart - Hamburg" }, { id: 2, type:"ICE" , name: "Stuttgart - Kevin Hausen" }, { id: 3,type:"RE" , name: "Stuttgart - Jarro" }];
 
     function addTrain() {

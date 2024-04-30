@@ -9,15 +9,15 @@ export async function load({ cookies }) {
 
     if (gameRound.step === undefined) {
         // TODO: Load trains from API and get player count
-       //gameRound.createRound(trains, 4);
+        const trains = await schkubitrains.getTrainArray();
+        await gameRound.createRound(trains, 4);
     }
 
-    console.log("Load game site:");
-    console.log(await getTraindata());
-    //schkubitrains.updateTrainArray();
-    console.log(gameRound.step);
+    //console.log(await getTraindata());
+    const trains = await schkubitrains.getTrainArray();
+    console.log("SchkubiTrains Ausgabe in page.server:" + trains);
 
-    return {gameRound: gameRound.step};
+    return { gameRound };
 }
 
 export const actions = {
