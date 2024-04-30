@@ -8,12 +8,7 @@ export class GameRound {
             this.playerCount = jsonData.playerCount;
             this.step = jsonData.step;
             this.trains = jsonData.trains;
-        } else {
-            this.step = 0;
-            this.playerCount = 0;
-            this.trains = [];
         }
-        this.schkubitrains = new Schkubitrains();
     }
 
     async createRound(trains, playerCount) {

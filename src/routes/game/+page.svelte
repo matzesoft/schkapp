@@ -4,7 +4,8 @@
     import PlaceBet from "./PlaceBet.svelte";
     import EndScreen from "./EndScreen.svelte";
     export let data;
-    $: gameStep = data.gameRound.step;
+    $: gameStep = data.step;
+    $: trains = data.trains;
     let plyers = [{ id: 0, name: "Kevin" }, { id: 1, name: "Sven"}, { id: 2, name: "EEMA"}];
     $: currentPlayer = plyers[gameStep].name;
 

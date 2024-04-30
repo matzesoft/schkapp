@@ -7,17 +7,13 @@ export async function load({ cookies }) {
     const gameRound = new GameRound(cookies.get('game_round'));
     const schkubitrains = new Schkubitrains(cookies.get('trains'));
 
+    /// gameRound is undefined if no gameRound has started yet
     if (gameRound.step === undefined) {
-        // TODO: Load trains from API and get player count
         const trains = await schkubitrains.getTrainArray();
         await gameRound.createRound(trains, 4);
     }
 
-    //console.log(await getTraindata());
-    const trains = await schkubitrains.getTrainArray();
-    console.log("SchkubiTrains Ausgabe in page.server:" + trains);
-
-    return { gameRound };
+    return { step: gameRound.step, trains: gameRound.trains };
 }
 
 export const actions = {
