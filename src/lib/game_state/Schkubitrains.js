@@ -1,4 +1,4 @@
-import {getTraindata} from "$lib/db_api/db_api.js";
+import {getTraindata} from "$lib/server/db_api/db_api.js";
 export const trainsPerRoundCount = 5;
 
 export class Schkubitrains {

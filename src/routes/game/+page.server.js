@@ -1,6 +1,6 @@
 import {GameRound} from "$lib/game_state/GameRound.js";
 import {Schkubitrains} from "$lib/game_state/Schkubitrains.js";
-import {getTraindata} from "$lib/db_api/db_api.js";
+import {getTraindata} from "$lib/server/db_api/db_api.js";
 
 /** @type {import('./$types').PageServerLoad} */
 export async function load({ cookies }) {
@@ -12,7 +12,8 @@ export async function load({ cookies }) {
        //gameRound.createRound(trains, 4);
     }
 
-    console.log(getTraindata());
+    console.log("Load game site:");
+    console.log(await getTraindata());
     //schkubitrains.updateTrainArray();
     console.log(gameRound.step);
 

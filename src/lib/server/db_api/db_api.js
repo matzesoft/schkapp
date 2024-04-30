@@ -2,7 +2,7 @@ import ApiAuthentication from './api_auth.js';
 import StationHelper from './station_helper.js';
 import TimetableHelper from './timetable_helper.js';
 
-// getTraindata will return a List of all trains that are requestet by Name
+// getTraindata will return a List of all trains that are requested by Name
 
 export async function getTraindata() {
 
@@ -14,7 +14,7 @@ export async function getTraindata() {
         if (station && station.length <= 0) {
             console.error('Station nicht gefunden');
             return [];
-        };
+        }
 
         const timetableHelper = new TimetableHelper(station[0], auth);
 
@@ -30,11 +30,7 @@ export async function getTraindata() {
             return [];
         }
 
-        const timetableChanges = await timetableHelper.getTimetableChanges(timetable);
-
-        console.log(timetableChanges)
-        return timetableChanges;
-
+        return await timetableHelper.getTimetableChanges(timetable);
     } catch (error) {
         console.error(error);
     }
