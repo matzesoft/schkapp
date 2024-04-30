@@ -1,15 +1,16 @@
 
 <script>
-    //TODO: $: trains = data.trains;
-    $: trainID = 1;
+    import { createEventDispatcher } from 'svelte';
+    export let trains = [];
     export let selectedTrain = null;
-
+    const dispatch = createEventDispatcher();
 
     function selectTrain(trainID) {
         selectedTrain = trainID;
+        dispatch('trainSelected', { trainID });
     }
 
-    let trains = [{ id: 332, type:"ICE" , name: "Stuttgart - Hamburg" }, { id: 2, type:"ICE" , name: "Stuttgart - Kevin Hausen" }, { id: 3,type:"RE" , name: "Stuttgart - Jarro" }];
+    //let trains = [{ id: 332, type:"ICE" , name: "Stuttgart - Hamburg" }, { id: 2, type:"ICE" , name: "Stuttgart - Kevin Hausen" }, { id: 3,type:"RE" , name: "Stuttgart - Jarro" }];
 
     function addTrain() {
         const newTrainId = trains.length + 1;
@@ -21,14 +22,13 @@
 <main>
     {#each trains as train (train.id)}
     <div class="Train" on:click={() => selectTrain(train.id)}>
-        <p class="trainHead">Zug: {train.type} {train.id}</p>
+        <p class="trainHead">Zug: {train.trainType} {train.nummer}</p>
         <p>{train.name}</p>
         <input type="radio" bind:group={selectedTrain} value={train.id}>
     </div>
     {/each}
     Selected Train: {selectedTrain}
 
-    <!-- Add Train kann man Entfernen <button on:click={addTrain}>Add Train</button> -->
 </main>
 
 

@@ -6,6 +6,7 @@
     export let data;
     $: gameStep = data.step;
     $: trains = data.trains;
+
     let plyers = [{ id: 0, name: "Kevin" }, { id: 1, name: "Sven"}, { id: 2, name: "EEMA"}];
     $: currentPlayer = plyers[gameStep].name;
 
@@ -13,6 +14,12 @@
     function SelectTrain() {gameStep = 0;}
     function placeBet() {gameStep = 1;}
     function resultScreen() {gameStep = 2;}
+
+    function handleTrainSelection(event){
+        // event.detail contains the data passed when dispatching the event
+        let selectedTrain = event.detail.trainID;
+        // Now you can use selectedTrainID to update the selected train in GameRound
+    }
 
 </script>
 
@@ -24,7 +31,7 @@
     {#if gameStep === 0}
         //TODO ADD PLAYER
         <h3>Current Player: {currentPlayer}</h3>
-        <SelectTrains />
+        <SelectTrains {trains} on:trainSelected={handleTrainSelection}/>
     {:else if gameStep === 1}
         <h3>Current Player: {currentPlayer}</h3>
         <PlaceBet />
@@ -46,7 +53,7 @@
 <button on:click={resultScreen}>Ergebnisse</button>
 -->
 
-<div>{@html data.text}</div>
+<div>{@html "Server data.step:" +data.step}</div>
 
 <style>
     #scroll-content{

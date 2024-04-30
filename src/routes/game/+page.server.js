@@ -24,7 +24,7 @@ export const actions = {
         if (gameRound.step < 2) {
             gameRound.step += 1;
         }
-
+        //TODO: If klick on "next", game state allways undefined
         console.log("New game state: " + gameRound.step);
 
         cookies.set('game_round', gameRound.toJson(), { path: '/' });

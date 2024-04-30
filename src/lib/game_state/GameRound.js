@@ -8,8 +8,14 @@ export class GameRound {
             this.playerCount = jsonData.playerCount;
             this.step = jsonData.step;
             this.trains = jsonData.trains;
+            this.selectedTrain = jsonData.selectedTrain;
         }
     }
+
+    selectTrain(train) {
+        this.selectedTrain = trainID;
+    }
+
 
     async createRound(trains, playerCount) {
         this.step = 0;
@@ -23,7 +29,8 @@ export class GameRound {
         return JSON.stringify({
             playerCount: this.playerCount,
             step: this.step,
-            trains: this.trains
+            trains: this.trains,
+            selectedTrain: this.selectedTrain
         });
     }
 }
