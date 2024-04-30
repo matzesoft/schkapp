@@ -1,12 +1,4 @@
-<script>
-    import {getTraindata} from '$lib/db_api/db_api.js';
-</script>
-
 <main>
-
-    <button class="game-buttons" on:click={getTraindata}>
-        Get Traindata
-    </button>
 
     <button class="game-buttons">
         <a href="/game">
