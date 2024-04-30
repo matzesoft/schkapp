@@ -1,4 +1,4 @@
-[
+export const train_stations_list = [
   {
     "EVA_NR": 8002551,
     "DS100": "AELB",
@@ -78227,4 +78227,4 @@
     "Betreiber_Nr": 0,
     "Status": ""
   }
-]
+];

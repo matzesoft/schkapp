@@ -1,3 +1,5 @@
+import { train_stations_list } from "./static/train_stations_list";
+
 class Station {
   constructor({ EVA_NR, DS100, IFOPT, NAME, Verkehr, Laenge, Breite, Betreiber_Name, Betreiber_Nr, Status }) {
     this.EVA_NR = EVA_NR;
@@ -26,12 +28,7 @@ export default class StationHelper {
     if (this.stationsList.length > 0) return;
 
     try {
-      // Load the stations list from the static json file
-      const response = await fetch("$lib/db_api/static/train_stations_list.json");
-      if (!response.ok) throw new Error("train_stations_list not found");
-      const stations = await response.json();
-
-      this.stationsList = stations.map(item => new Station(item));
+      this.stationsList = train_stations_list.map(item => new Station(item));
     } catch (error) {
       console.error("Fehler beim Laden der Stationsliste:", error);
     }

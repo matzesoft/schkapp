@@ -1,4 +1,5 @@
 import { xml2js } from "xml-js";
+import { message_codes } from "./static/message_codes";
 
 export default class TimetableHelper {
 
@@ -153,17 +154,11 @@ export default class TimetableHelper {
         const jsonResult = xml2js(xmlText, options);
         return jsonResult
     }
-    // Resolve the message by code from JSON file called message_codes.json
+
     async resolveMessageByCode(code) {
         try {
-            const response = await fetch('$lib/db_api/static/message_codes.json');
-            if (!response.ok) {
-                throw new Error(`could not found json ${response.status}`);
-            }
-            const messageCodes = await response.json();
-           
             // searching code from json
-            const codeObject = messageCodes.find(codeObject => codeObject.code == code);
+            const codeObject = message_codes.find(codeObject => codeObject.code == code);
             return codeObject ? codeObject.message : 'Unbekannte Nachricht';
         } catch (error) {
             console.error("Fehler beim Laden der Nachrichtencodes:", error);

@@ -1,4 +1,4 @@
-[
+export const message_codes = [
     {
         "code": 0,
         "message": "keine Verspätungsbegründung"
@@ -335,4 +335,4 @@
         "code": 99,
         "message": "Verzögerungen im Betriebsablauf"
     }
-]
+];
