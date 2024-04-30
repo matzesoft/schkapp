@@ -7,7 +7,7 @@ export async function load({ cookies }) {
     const gameRound = new GameRound(cookies.get('game_round'));
     const schkubitrains = new Schkubitrains(cookies.get('trains'));
 
-    /// gameRound is undefined if no gameRound has started yet
+    /// gameRound.step is undefined if no gameRound has started yet
     if (gameRound.step === undefined) {
         const trains = await schkubitrains.getTrainArray();
         await gameRound.createRound(trains, 4);
