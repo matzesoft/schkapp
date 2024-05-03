@@ -1,4 +1,5 @@
 import {getTraindata} from "$lib/server/db_api/db_api.js";
+
 export const trainsPerRoundCount = 5;
 
 export class Schkubitrains {
@@ -49,16 +50,12 @@ export class Schkubitrains {
     }
 
     async getTrainArray() {
-    await this.updateTrainArray();
-        let firstFiveTrains = this.trains.slice(0, trainsPerRoundCount);
-        return firstFiveTrains;
-}
+        await this.updateTrainArray();
+        return this.trains.slice(0, trainsPerRoundCount);
+    }
 
 
     toJson() {
-        return JSON.stringify({
-            playerCount: this.playerCount,
-            step: this.step
-        });
+        return JSON.stringify(this);
     }
 }

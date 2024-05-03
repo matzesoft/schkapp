@@ -8,29 +8,27 @@ export class GameRound {
             this.playerCount = jsonData.playerCount;
             this.step = jsonData.step;
             this.trains = jsonData.trains;
-            this.selectedTrain = jsonData.selectedTrain;
+            this.currentPlayer = jsonData.currentPlayer;
+            this.selectedBets = jsonData.selectedBets;
         }
     }
 
-    selectTrain(train) {
-        this.selectedTrain = trainID;
+    async createRound(trains) {
+        this.step = 0;
+        this.currentPlayer = 0;
+        this.trains = trains;
+        this.selectedBets = [];
     }
 
-
-    async createRound(trains, playerCount) {
-        this.step = 0;
+    setPlayerCount(playerCount) {
         this.playerCount = playerCount;
+    }
 
-        // Store trains to use for this round
-        this.trains = trains;
+    setSelectedTrain(trainId) {
+        this.selectedBets[this.currentPlayer] = { trainId : trainId };
     }
 
     toJson() {
-        return JSON.stringify({
-            playerCount: this.playerCount,
-            step: this.step,
-            trains: this.trains,
-            selectedTrain: this.selectedTrain
-        });
+        return JSON.stringify(this);
     }
 }

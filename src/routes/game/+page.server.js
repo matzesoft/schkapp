@@ -13,6 +13,8 @@ export async function load({ cookies }) {
         await gameRound.createRound(trains, 4);
     }
 
+    cookies.set('game_round', gameRound.toJson(), { path: '/' });
+    cookies.set('schkubitrains', schkubitrains.toJson(), { path: '/' });
     return { step: gameRound.step, trains: gameRound.trains };
 }
 
@@ -27,7 +29,7 @@ export const actions = {
         if (gameRound.step < 2) {
             gameRound.step += 1;
         }
-        //TODO: If klick on "next", game state allways undefined
+        //TODO: If klick on "next", game state always undefined
         console.log("New game state: " + gameRound.step);
 
         cookies.set('game_round', gameRound.toJson(), { path: '/' });
