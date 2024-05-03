@@ -1,4 +1,5 @@
 import {getTraindata} from "$lib/server/db_api/db_api.js";
+
 export const trainsPerRoundCount = 5;
 
 export class Schkubitrains {
@@ -21,8 +22,9 @@ export class Schkubitrains {
     async updateTrainArray() {
         if (this.trains.length === 0) {
             let fetchedTrains = await getTraindata();
-            //for debug: console.log("Fetched trains before transformation: ", fetchedTrains);
+            //console.log("Fetched trains before transformation: ", fetchedTrains);
             this.trains = fetchedTrains.map(this.transformTrainData);
+            console.log("Fetched trains after Cut: ", this.trains);
             this.gameRoundStartTime = new Date();
         }
         if(this.hasTenMinutesPassed()){
@@ -36,29 +38,39 @@ export class Schkubitrains {
     }
 
     transformTrainData(train){
+        let arrivalStartStation = typeof train.arrival.vonIrgendwoNachStation === 'string'
+            ? train.arrival.vonIrgendwoNachStation.split('|')[0] + " -> Stuttgart-HBF"
+            : 'Unknown Station';
+
         let name = typeof train.departure.abStationNachIrgendwo === 'string'
             ? "Stuttgart-HBF ->" + train.departure.abStationNachIrgendwo.split('|').pop()
             : 'Unknown Station';
+
+        let departureTime = train.departure.abfahrtAbStation ? train.departure.abfahrtAbStation : null;
+        let arrivalTime = train.arrival.ankunftInStation ? train.arrival.ankunftInStation : null;
+        let changeMessage = train.trainChanges ? train.trainChanges.changeMessage : null;
 
         return{
             id: train.trainID,
             nummer: train.tripLabel.zugNummer,
             trainType: train.tripLabel.zugArt,
-            name: name
+            arrivalStartStation: arrivalStartStation,
+            departureEndStation: name,
+            arrivalTime: arrivalTime,
+            departureTime: departureTime,
+            changeMessage: changeMessage,
+            newArrivalTime: JSON.stringify(train.trainChanges.arrival),
+            newDepartureTime: JSON.stringify(train.trainChanges.departure)
         };
     }
 
     async getTrainArray() {
-    await this.updateTrainArray();
-        let firstFiveTrains = this.trains.slice(0, trainsPerRoundCount);
-        return firstFiveTrains;
-}
+        await this.updateTrainArray();
+        return this.trains.slice(0, trainsPerRoundCount);
+    }
 
 
     toJson() {
-        return JSON.stringify({
-            playerCount: this.playerCount,
-            step: this.step
-        });
+        return JSON.stringify(this);
     }
 }

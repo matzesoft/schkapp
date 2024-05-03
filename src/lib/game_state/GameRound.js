@@ -1,4 +1,4 @@
-import {Schkubitrains} from "$lib/game_state/Schkubitrains.js";
+import {chooseBetStep, choosePlayerCountStep, chooseTrainStep, resultsStep} from "$lib/constants.js";
 
 export class GameRound {
     constructor(serialized = undefined) {
@@ -8,29 +8,53 @@ export class GameRound {
             this.playerCount = jsonData.playerCount;
             this.step = jsonData.step;
             this.trains = jsonData.trains;
-            this.selectedTrain = jsonData.selectedTrain;
+            this.currentPlayer = jsonData.currentPlayer;
+            this.selectedBets = jsonData.selectedBets;
         }
     }
 
-    selectTrain(train) {
-        this.selectedTrain = trainID;
+    async createRound(trains) {
+        this.setStep(choosePlayerCountStep);
+        this.currentPlayer = 0;
+        this.trains = trains;
+        this.selectedBets = [];
+
+        console.log(this.currentPlayer);
     }
 
+    setStep(step) {
+        if (step < 0 || step > 3) {
+            throw new Error("Invalid step");
+        }
+        this.step = step;
+    }
 
-    async createRound(trains, playerCount) {
-        this.step = 0;
+    setPlayerCount(playerCount) {
+        if (playerCount < 1 && playerCount > 10) {
+            throw new Error("Invalid player count");
+        }
         this.playerCount = playerCount;
+        this.setStep(chooseTrainStep);
+    }
 
-        // Store trains to use for this round
-        this.trains = trains;
+    setSelectedTrainForCurrentPlayer(trainId) {
+        this.selectedBets[this.currentPlayer] = { trainId : trainId };
+        this.setStep(chooseBetStep);
+    }
+
+    setSelectedBetForCurrentPlayer(bet) {
+        // TODO: Add bet to bets array
+        //this.selectedBets[this.currentPlayer] = bet;
+
+        if (this.currentPlayer === this.playerCount-1) {
+            this.setStep(resultsStep);
+        } else {
+            this.setStep(chooseTrainStep);
+            this.currentPlayer += 1;
+        }
     }
 
     toJson() {
-        return JSON.stringify({
-            playerCount: this.playerCount,
-            step: this.step,
-            trains: this.trains,
-            selectedTrain: this.selectedTrain
-        });
+        return JSON.stringify(this);
     }
 }
