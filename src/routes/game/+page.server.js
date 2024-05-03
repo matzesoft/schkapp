@@ -14,8 +14,9 @@ export async function load({ cookies }) {
         await gameRound.createRound(trains);
     }
 
+    console.log(schkubitrains.toJson());
     cookies.set('game_round', gameRound.toJson(), { path: '/' });
-    //cookies.set('schkubitrains', schkubitrains.toJson(), { path: '/' });
+    cookies.set('schkubitrains', schkubitrains.toJson(), { path: '/' });
     return { step: gameRound.step, trains: gameRound.trains, currentPlayer: gameRound.currentPlayer };
 }
 

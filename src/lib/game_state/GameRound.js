@@ -5,11 +5,11 @@ export class GameRound {
         if (serialized) {
             let jsonData = JSON.parse(serialized);
 
-            this.playerCount = jsonData.playerCount;
-            this.step = jsonData.step;
-            this.trains = jsonData.trains;
-            this.currentPlayer = jsonData.currentPlayer;
-            this.selectedBets = jsonData.selectedBets;
+            this.playerCount = jsonData.pC;
+            this.step = jsonData.s;
+            this.trains = jsonData.t;
+            this.currentPlayer = jsonData.cP;
+            this.selectedBets = jsonData.sB;
         }
     }
 
@@ -54,6 +54,12 @@ export class GameRound {
     }
 
     toJson() {
-        return JSON.stringify(this);
+        return JSON.stringify({
+            pC: this.playerCount,
+            s: this.step,
+            t: this.trains,
+            cP: this.currentPlayer,
+            sB: this.selectedBets
+        });
     }
 }
