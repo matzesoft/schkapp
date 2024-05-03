@@ -43,7 +43,7 @@ export class Schkubitrains {
             : 'Unknown Station';
 
         let name = typeof train.departure.abStationNachIrgendwo === 'string'
-            ? "Stuttgart-HBF ->" + train.departure.abStationNachIrgendwo.split('|').pop()
+            ? "Stuttgart-HBF -> " + train.departure.abStationNachIrgendwo.split('|').pop()
             : 'Unknown Station';
 
         let departureTime = train.departure.abfahrtAbStation ? train.departure.abfahrtAbStation : null;
