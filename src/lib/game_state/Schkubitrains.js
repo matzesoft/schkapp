@@ -27,17 +27,18 @@ export class Schkubitrains {
             console.log("Fetched trains after Cut: ", this.trains);
             this.gameRoundStartTime = new Date();
         }
-        if(this.hasTenMinutesPassed()){
+        if (this.hasTenMinutesPassed()) {
             this.trains = await getTraindata();
             this.gameRoundStartTime = new Date();
             //TODO um Trains kümmern, die nicht verarbeitet werden können
-        }else {
+        } else {
             this.trains.splice(0, trainsPerRoundCount);
         }
         return this.trains;
     }
 
     transformTrainData(train){
+        // Create start and end stations strings
         let arrivalStartStation = typeof train.arrival.vonIrgendwoNachStation === 'string'
             ? train.arrival.vonIrgendwoNachStation.split('|')[0] + " -> Stuttgart-HBF"
             : null;
@@ -46,31 +47,29 @@ export class Schkubitrains {
             ? "Stuttgart-HBF -> " + train.departure.abStationNachIrgendwo.split('|').pop()
             : null;
 
-        let test = JSON.stringify(train.trainChanges?.arrival.ankunftNachricht);
+        // Create messageCodes array
+        let arrivalMessages = train.trainChanges?.arrival.ankunftNachricht;
+        let departureMessages = train.trainChanges?.departure.abfahrtNachricht;
+        let messageCodes = [];
 
-        let message = train.trainChanges?.arrival.ankunftNachricht;
+        if (arrivalMessages !== undefined && departureMessages !== undefined) {
+            let messages = train.trainChanges?.arrival.ankunftNachricht.concat(train.trainChanges?.departure.abfahrtNachricht);
 
-        //if message === undefined {
-
-        for (let i = 0; i < message.length; i++) {
-            console.log(message[i].message);
+            for (let i = 0; i < messages.length; i++) {
+                if (messages[i] !== undefined) {
+                    messageCodes.push(messages[i].message);
+                }
+            }
         }
 
-
-
-
-        return{
+        // Return transformed train object
+        return {
             id: train.trainID,
             number: train.tripLabel.zugNummer,
             trainType: train.tripLabel.zugArt,
             arrivalStartStation: arrivalStartStation,
             departureEndStation: departureEndStation,
-            message: message,
-            test : test
-            //arrivalTime: arrivalTime,
-            //departureTime: departureTime,
-            //newArrivalTime: train.trainChanges?.arrival.neueAnkunftszeit,
-            //newDepartureTime: train.trainChanges?.departure.neueAbfahrtsZeit,
+            messageCodes: messageCodes,
         };
     }
 
@@ -78,7 +77,6 @@ export class Schkubitrains {
         await this.updateTrainArray();
         return this.trains.slice(0, trainsPerRoundCount);
     }
-
 
     toJson() {
         return JSON.stringify(this);
