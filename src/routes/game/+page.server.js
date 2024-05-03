@@ -34,7 +34,7 @@ export const actions = {
                 gameRound.setSelectedTrainForCurrentPlayer(dataFromPage.get('selectedTrainFromPlayer'));
                 break;
             case chooseBetStep:
-                const bets = dataFromPage.get('selectedBetsFromPlayer');
+                const bets = dataFromPage.get('selectedBetsFromPlayer').split(',').map(Number);
                 gameRound.setSelectedBetsForCurrentPlayer(bets); // TODO: Add the actual bets from the page
                 break;
             case resultsStep:
