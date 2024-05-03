@@ -48,10 +48,6 @@ export const message_codes = [
         "message": "Warten auf ein verspätetes Schiff"
     },
     {
-        "code": 13,
-        "message": "Pass- und Zollkontrolle"
-    },
-    {
         "code": 14,
         "message": "Technische Störung am Bahnhof"
     },
@@ -62,10 +58,6 @@ export const message_codes = [
     {
         "code": 16,
         "message": "Entschärfung einer Fliegerbombe"
-    },
-    {
-        "code": 17,
-        "message": "Beschädigung einer Brücke"
     },
     {
         "code": 18,
@@ -80,14 +72,6 @@ export const message_codes = [
         "message": "Tiere im Gleis"
     },
     {
-        "code": 21,
-        "message": "Warten auf Fahrgäste aus einem anderen Zug"
-    },
-    {
-        "code": 22,
-        "message": "Witterungsbedingte Störung"
-    },
-    {
         "code": 23,
         "message": "Feuerwehreinsatz auf Bahngelände"
     },
@@ -96,16 +80,8 @@ export const message_codes = [
         "message": "Verspätung im Ausland"
     },
     {
-        "code": 25,
-        "message": "Warten auf weitere Wagen"
-    },
-    {
         "code": 28,
         "message": "Gegenstände im Gleis"
-    },
-    {
-        "code": 29,
-        "message": "Ersatzverkehr mit Bus ist eingerichtet"
     },
     {
         "code": 31,
@@ -114,10 +90,6 @@ export const message_codes = [
     {
         "code": 32,
         "message": "Verzögerung beim Ein-/Ausstieg"
-    },
-    {
-        "code": 33,
-        "message": "Oberleitungsstörung"
     },
     {
         "code": 34,
@@ -136,36 +108,12 @@ export const message_codes = [
         "message": "technische Störung an der Strecke"
     },
     {
-        "code": 39,
-        "message": "Anhängen von zusätzlichen Wagen"
-    },
-    {
-        "code": 40,
-        "message": "Stellwerksstörung /-ausfall"
-    },
-    {
-        "code": 41,
-        "message": "Störung an einem Bahnübergang"
-    },
-    {
-        "code": 42,
-        "message": "außerplanmäßige Geschwindigkeitsbeschränkung"
-    },
-    {
         "code": 43,
         "message": "Verspätung eines vorausfahrenden Zuges"
     },
     {
         "code": 44,
         "message": "Warten auf einen entgegenkommenden Zug"
-    },
-    {
-        "code": 45,
-        "message": "Überholung"
-    },
-    {
-        "code": 46,
-        "message": "Warten auf freie Einfahrt"
     },
     {
         "code": 47,
@@ -176,40 +124,12 @@ export const message_codes = [
         "message": "Verspätung aus vorheriger Fahrt"
     },
     {
-        "code": 55,
-        "message": "technische Störung an einem anderen Zug"
-    },
-    {
-        "code": 56,
-        "message": "Warten auf Fahrgäste aus einem Bus"
-    },
-    {
-        "code": 57,
-        "message": "Zusätzlicher Halt zum Ein-/Ausstieg für Reisende"
-    },
-    {
-        "code": 58,
-        "message": "Umleitung des Zuges"
-    },
-    {
-        "code": 59,
-        "message": "Schnee und Eis"
-    },
-    {
         "code": 60,
         "message": "Reduzierte Geschwindigkeit wegen Sturm"
     },
     {
         "code": 61,
         "message": "Türstörung"
-    },
-    {
-        "code": 62,
-        "message": "behobene technische Störung am Zug"
-    },
-    {
-        "code": 63,
-        "message": "technische Untersuchung am Zug"
     },
     {
         "code": 64,
@@ -228,36 +148,8 @@ export const message_codes = [
         "message": "WLAN im gesamten Zug nicht verfügbar"
     },
     {
-        "code": 71,
-        "message": "WLAN in einem/mehreren Wagen nicht verfügbar"
-    },
-    {
-        "code": 72,
-        "message": "Info-/Entertainment nicht verfügbar"
-    },
-    {
-        "code": 73,
-        "message": "Heute: Mehrzweckabteil vorne"
-    },
-    {
-        "code": 74,
-        "message": "Heute: Mehrzweckabteil hinten"
-    },
-    {
-        "code": 75,
-        "message": "Heute: 1. Klasse vorne"
-    },
-    {
-        "code": 76,
-        "message": "Heute: 1. Klasse hinten"
-    },
-    {
         "code": 77,
         "message": "ohne 1. Klasse"
-    },
-    {
-        "code": 79,
-        "message": "ohne Mehrzweckabteil"
     },
     {
         "code": 80,
@@ -268,71 +160,11 @@ export const message_codes = [
         "message": "mehrere Wagen fehlen"
     },
     {
-        "code": 83,
-        "message": "Störung fahrzeuggebundene Einstiegshilfe"
-    },
-    {
-        "code": 84,
-        "message": "Zug verkehrt richtig gereiht"
-    },
-    {
         "code": 85,
         "message": "ein Wagen fehlt"
     },
     {
-        "code": 86,
-        "message": "gesamter Zug ohne Reservierung"
-    },
-    {
-        "code": 87,
-        "message": "einzelne Wagen ohne Reservierung"
-    },
-    {
-        "code": 88,
-        "message": "keine Qualitätsmängel"
-    },
-    {
-        "code": 89,
-        "message": "Reservierungen sind wieder vorhanden"
-    },
-    {
         "code": 90,
         "message": "kein gastronomisches Angebot"
-    },
-    {
-        "code": 91,
-        "message": "fehlende Fahrradbeförderung"
-    },
-    {
-        "code": 92,
-        "message": "Eingeschränkte Fahrradbeförderung"
-    },
-    {
-        "code": 93,
-        "message": "keine behindertengerechte Einrichtung"
-    },
-    {
-        "code": 94,
-        "message": "Ersatzbewirtschaftung"
-    },
-    {
-        "code": 95,
-        "message": "Ohne behindertengerechtes WC"
-    },
-    {
-        "code": 96,
-        "message": "Überbesetzung mit Kulanzleistungen"
-    },
-    {
-        "code": 97,
-        "message": "Überbesetzung ohne Kulanzleistungen"
-    },
-    {
-        "code": 98,
-        "message": "sonstige Qualitätsmängel"
-    },
-    {
-        "code": 99,
-        "message": "Verzögerungen im Betriebsablauf"
     }
 ];
