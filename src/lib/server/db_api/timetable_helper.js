@@ -119,7 +119,6 @@ export default class TimetableHelper {
                     } else if (element.name === "dp") { 
                         changesObj.departure.neueAbfahrtsZeit = element.attributes?.ct ? this.formatDate(element.attributes.ct) : {};
                         changesObj.departure.abfahrtNachricht = await this.messageResolver(element.elements);
-                        console.log(changesObj.departure.abfahrtNachricht);
                     } else if (element.name === "ar") {
                         changesObj.arrival.neueAnkunftszeit = element.attributes?.ct ? this.formatDate(element.attributes.ct) : {};
                         changesObj.arrival.ankunftNachricht = await this.messageResolver(element.elements);
