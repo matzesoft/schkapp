@@ -14,7 +14,8 @@
     $: gameStep = data.step;
     $: currentPlayer = data.currentPlayer;
     $: trains = data.trains;
-    let selectetTrain = null;
+    let selectedTrainFromComponent = null;
+    let selectedBetsFromComponent = [];
 
     let y;
     function SelectTrain() {
@@ -62,14 +63,23 @@
                 <h3>Current Player: {currentPlayer}</h3>
                 <input
                     name="selectedTrainFromPlayer"
-                    disabled={selectetTrain == null}
+                    disabled={selectedTrainFromComponent == null}
                     type="hidden"
-                    value={selectetTrain}
+                    value={selectedTrainFromComponent}
                 />
-                <SelectTrains {trains} bind:selectedTrain={selectetTrain} />
+                <SelectTrains {trains} bind:selectedTrain={selectedTrainFromComponent} />
+
             {:else if gameStep === chooseBetStep}
                 <h3>Current Player: {currentPlayer}</h3>
-                <PlaceBet />
+                <input
+                    name="selectedBetsFromPlayer"
+                    
+                    disabled={selectedBetsFromComponent == null}
+                    type="hidden"
+                    value={selectedBetsFromComponent}
+                />
+                <PlaceBet bind:selectedBets={selectedBetsFromComponent} />
+
             {:else if gameStep === resultsStep}
                 <h1>GAME OVER!</h1>
                 <EndScreen />

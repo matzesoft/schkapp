@@ -24,6 +24,7 @@ export const actions = {
     nextRoundStep: async ({ request, cookies }) => {
         const gameRound = new GameRound(cookies.get('game_round'));
         const dataFromPage = await request.formData();
+        console.log(dataFromPage);
 
         switch (gameRound.step) {
             case choosePlayerCountStep:
@@ -34,7 +35,7 @@ export const actions = {
                 break;
             case chooseBetStep:
                 const bets = dataFromPage.get('selectedBetsFromPlayer');
-                gameRound.setSelectedBetsForCurrentPlayer([1, 2, 3]); // TODO: Add the actual bets from the page
+                gameRound.setSelectedBetsForCurrentPlayer(bets); // TODO: Add the actual bets from the page
                 break;
             case resultsStep:
                 // TODO: DO SOMETHING
