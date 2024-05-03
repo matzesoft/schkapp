@@ -20,7 +20,10 @@ export const actions = {
 
     nextRoundStep: async ({ request, cookies }) => {
         const gameRound = new GameRound(cookies.get('game_round'));
-
+        const dataFromPage = await request.formData();
+        const selectedTrain = (dataFromPage.get('selectedTrainFromPlayer'));
+        console.log(selectedTrain);
+        console.log(dataFromPage);
         if (gameRound.step < 2) {
             gameRound.step += 1;
         }

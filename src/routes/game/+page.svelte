@@ -6,7 +6,7 @@
     export let data;
     $: gameStep = data.step;
     $: trains = data.trains;
-
+    let selectetTrain = null;
     let plyers = [{ id: 0, name: "Kevin" }, { id: 1, name: "Sven"}, { id: 2, name: "EEMA"}];
     $: currentPlayer = plyers[gameStep].name;
 
@@ -15,7 +15,7 @@
     function placeBet() {gameStep = 1;}
     function resultScreen() {gameStep = 2;}
 
-
+    // $: selectedTrain = getSelectedTrain();
 </script>
 
 <svelte:window bind:scrollY={y} />
@@ -26,7 +26,7 @@
     {#if gameStep === 0}
         //TODO ADD PLAYER
         <h3>Current Player: {currentPlayer}</h3>
-        <SelectTrains {trains} />
+        <SelectTrains {trains} bind:selectedTrain={selectetTrain}/>
     {:else if gameStep === 1}
         <h3>Current Player: {currentPlayer}</h3>
         <PlaceBet />
@@ -37,12 +37,13 @@
         <h1>Unknown game Status</h1>
     {/if}
     <form method="POST" action="?/nextRoundStep">
+        <input name="selectedTrainFromPlayer" disabled={selectetTrain == null} type="hidden" value={selectetTrain} />
         <button class="center-button">NEXT!</button>
     </form>
 </main>
 </div>
 
-<div>{@html "Server data.step:" +data.step}</div>
+<div>{@html "Server data.step:" +data.step }</div>
 
 <style>
     #scroll-content{
