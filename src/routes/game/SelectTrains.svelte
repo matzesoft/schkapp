@@ -1,6 +1,5 @@
 
 <script>
-    import { createEventDispatcher } from 'svelte';
     export let trains = [];
     export let selectedTrain = null;
 
@@ -42,7 +41,7 @@
         padding: 10px; /* Add some space inside the box */
         margin-bottom: 10px; /* Add some space between the boxes */
         background-color: rgba(255, 255, 255, 0.8); /* Add a semi-transparent white background */
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5); /* Add a shadow for a 3D effect */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Add a shadow for a 3D effect */
     }
 
 </style>

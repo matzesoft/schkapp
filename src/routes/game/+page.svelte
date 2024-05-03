@@ -15,7 +15,6 @@
     function placeBet() {gameStep = 1;}
     function resultScreen() {gameStep = 2;}
 
-    // $: selectedTrain = getSelectedTrain();
 </script>
 
 <svelte:window bind:scrollY={y} />
