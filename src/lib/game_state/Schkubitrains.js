@@ -59,8 +59,8 @@ export class Schkubitrains {
             arrivalTime: arrivalTime,
             departureTime: departureTime,
             changeMessage: changeMessage,
-            newArrivalTime: JSON.stringify(train.trainChanges.arrival),
-            newDepartureTime: JSON.stringify(train.trainChanges.departure)
+            newArrivalTime: JSON.stringify(train.trainChanges?.arrival),
+            newDepartureTime: JSON.stringify(train.trainChanges?.departure)
         };
     }
 
