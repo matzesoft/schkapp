@@ -6,6 +6,7 @@ import {getTraindata} from "$lib/server/db_api/db_api.js";
 export async function load({ cookies }) {
     const gameRound = new GameRound(cookies.get('game_round'));
     const schkubitrains = new Schkubitrains(cookies.get('trains'));
+    const trains = await schkubitrains.getTrainArray();
 
     /// gameRound.step is undefined if no gameRound has started yet
     if (gameRound.step === undefined) {
@@ -14,7 +15,7 @@ export async function load({ cookies }) {
     }
 
     cookies.set('game_round', gameRound.toJson(), { path: '/' });
-    cookies.set('schkubitrains', schkubitrains.toJson(), { path: '/' });
+    //cookies.set('schkubitrains', schkubitrains.toJson(), { path: '/' });
     return { step: gameRound.step, trains: gameRound.trains };
 }
 
