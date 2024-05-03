@@ -15,7 +15,7 @@
     {#each trains as train (train.id)}
     <div class="Train" on:click={() => selectTrain(train.id)}>
         <p class="trainHead">Zug: {train.trainType} {train.nummer}</p>
-        <p>{train.name}</p>
+        <p>{train.arrivalStartStation} {train.departureEndStation}</p>
             <input type="radio" bind:group={selectedTrain} value={train.id}>
     </div>
     {/each}
