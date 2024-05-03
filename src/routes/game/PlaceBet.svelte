@@ -14,11 +14,13 @@
 
 <main>
     {#each bets as bet (bet.code)}
-        <div class="Bet" on:click={() => placeBet(bet.code)}>
+    <label>
+        <div class={selectedBets.includes(bet.code) ? 'Bet selected' : 'Bet'} on:click={() => placeBet(bet.code)}>
             <p class="betHead">{bet.message}</p>
             <p>Anzahl an Schlücken: {bet.sips}</p>
             <input type="checkbox" bind:group={selectedBets} value={bet.code} />
         </div>
+    </label>
     {/each}
     Selected Bet: {selectedBets}
 </main>
@@ -45,5 +47,8 @@
             0.8
         ); /* Add a semi-transparent white background */
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Add a shadow for a 3D effect */
+    }
+    .selected {
+        background-color: #2BC0E0; /* Light green, for example */
     }
 </style>
