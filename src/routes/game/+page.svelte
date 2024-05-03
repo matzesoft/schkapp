@@ -15,11 +15,6 @@
     function placeBet() {gameStep = 1;}
     function resultScreen() {gameStep = 2;}
 
-    function handleTrainSelection(event){
-        // event.detail contains the data passed when dispatching the event
-        let selectedTrain = event.detail.trainID;
-        // Now you can use selectedTrainID to update the selected train in GameRound
-    }
 
 </script>
 
@@ -31,7 +26,7 @@
     {#if gameStep === 0}
         //TODO ADD PLAYER
         <h3>Current Player: {currentPlayer}</h3>
-        <SelectTrains {trains} on:trainSelected={handleTrainSelection}/>
+        <SelectTrains {trains} />
     {:else if gameStep === 1}
         <h3>Current Player: {currentPlayer}</h3>
         <PlaceBet />

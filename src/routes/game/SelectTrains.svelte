@@ -3,11 +3,9 @@
     import { createEventDispatcher } from 'svelte';
     export let trains = [];
     export let selectedTrain = null;
-    const dispatch = createEventDispatcher();
 
     function selectTrain(trainID) {
         selectedTrain = trainID;
-        dispatch('trainSelected', { trainID });
     }
 
     //let trains = [{ id: 332, type:"ICE" , name: "Stuttgart - Hamburg" }, { id: 2, type:"ICE" , name: "Stuttgart - Kevin Hausen" }, { id: 3,type:"RE" , name: "Stuttgart - Jarro" }];
