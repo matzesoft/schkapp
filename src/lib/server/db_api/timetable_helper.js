@@ -1,5 +1,4 @@
 import { xml2js } from "xml-js";
-import { message_codes } from "./static/message_codes";
 
 export default class TimetableHelper {
 
@@ -155,16 +154,6 @@ export default class TimetableHelper {
         return jsonResult
     }
 
-    async resolveMessageByCode(code) {
-        try {
-            // searching code from json
-            const codeObject = message_codes.find(codeObject => codeObject.code == code);
-            return codeObject ? codeObject.message : 'Unbekannte Nachricht';
-        } catch (error) {
-            console.error("Fehler beim Laden der Nachrichtencodes:", error);
-            return 'Fehler beim Abrufen der Nachricht';
-        }
-    }
     // Convfer the date into a readable format
     formatDate(s) {
         if (s.length !== 10) {
