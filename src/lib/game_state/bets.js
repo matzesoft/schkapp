@@ -1,4 +1,4 @@
-export const message_codes = [
+export const bets = [
     {
         code: 0,
         message: "keine Verspätungsbegründung",
