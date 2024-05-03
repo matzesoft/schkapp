@@ -21,7 +21,7 @@ export class Schkubitrains {
     async updateTrainArray() {
         if (this.trains.length === 0) {
             let fetchedTrains = await getTraindata();
-            //console.log("Fetched trains before transformation: ", fetchedTrains);
+            //for debug: console.log("Fetched trains before transformation: ", fetchedTrains);
             this.trains = fetchedTrains.map(this.transformTrainData);
             this.gameRoundStartTime = new Date();
         }
@@ -51,8 +51,6 @@ export class Schkubitrains {
     async getTrainArray() {
     await this.updateTrainArray();
         let firstFiveTrains = this.trains.slice(0, trainsPerRoundCount);
-        //console.log("SchkubiTrains Ausgabe in Schkubitrains.js:" + firstFiveTrains);
-        console.log("SchkubiTrains getTrainArray:" + JSON.stringify(this.trains[1]));
         return firstFiveTrains;
 }
 

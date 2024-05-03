@@ -42,12 +42,6 @@
 </main>
 </div>
 
-<!-- Zum Debuggen nützlich
-<button on:click={SelectTrain}>Züge Auswählen</button>
-<button on:click={placeBet}>Wette Plazieren</button>
-<button on:click={resultScreen}>Ergebnisse</button>
--->
-
 <div>{@html "Server data.step:" +data.step}</div>
 
 <style>
