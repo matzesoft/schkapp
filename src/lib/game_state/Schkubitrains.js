@@ -24,7 +24,7 @@ export class Schkubitrains {
             let fetchedTrains = await getTraindata();
             //console.log("Fetched trains before transformation: ", fetchedTrains);
             this.trains = fetchedTrains.map(this.transformTrainData);
-            console.log("Fetched trains after Cut: ", this.trains);
+           // console.log("Fetched trains after Cut: ", this.trains);
             this.gameRoundStartTime = new Date();
         }
         if(this.hasTenMinutesPassed()){

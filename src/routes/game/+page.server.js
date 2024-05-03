@@ -24,12 +24,12 @@ export const actions = {
     nextRoundStep: async ({ request, cookies }) => {
         const gameRound = new GameRound(cookies.get('game_round'));
         const dataFromPage = await request.formData();
-
-        console.log("Current step " + gameRound.step + " with current player: " + gameRound.currentPlayer);
+  
 
         switch (gameRound.step) {
             case choosePlayerCountStep:
-                gameRound.setPlayerCount(3); // TODO: Get player count from page
+                gameRound.setPlayerCount(dataFromPage.get('playerCount')); // TODO: Get player count from page
+                
                 break;
             case chooseTrainStep:
                 gameRound.setSelectedTrainForCurrentPlayer(dataFromPage.get('selectedTrainFromPlayer'));
@@ -41,7 +41,7 @@ export const actions = {
                 // TODO: DO SOMETHING
                 break;
         }
-
+        
         cookies.set('game_round', gameRound.toJson(), { path: '/' });
     },
 };
