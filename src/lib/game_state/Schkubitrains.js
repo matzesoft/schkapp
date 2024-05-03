@@ -64,12 +64,12 @@ export class Schkubitrains {
 
         // Return transformed train object
         return {
-            id: train.trainID,
-            number: train.tripLabel.zugNummer,
-            trainType: train.tripLabel.zugArt,
-            arrivalStartStation: arrivalStartStation,
-            departureEndStation: departureEndStation,
-            messageCodes: messageCodes,
+            i: train.trainID,
+            n: train.tripLabel.zugNummer,
+            t: train.tripLabel.zugArt,
+            a: arrivalStartStation,
+            d: departureEndStation,
+            m: messageCodes,
         };
     }
 
