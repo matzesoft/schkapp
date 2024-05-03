@@ -38,13 +38,12 @@ export class GameRound {
     }
 
     setSelectedTrainForCurrentPlayer(trainId) {
-        this.selectedBets[this.currentPlayer] = { trainId : trainId };
+        this.selectedBets[this.currentPlayer] = { trainId: trainId, bets: [] };
         this.setStep(chooseBetStep);
     }
 
-    setSelectedBetForCurrentPlayer(bet) {
-        // TODO: Add bet to bets array
-        //this.selectedBets[this.currentPlayer] = bet;
+    setSelectedBetsForCurrentPlayer(bets) {
+        this.selectedBets[this.currentPlayer].bets = bets;
 
         if (this.currentPlayer === this.playerCount-1) {
             this.setStep(resultsStep);
