@@ -12,7 +12,7 @@
 </script>
 
 <main>
-    {#each trains as train (train.id)}
+    {#each trains as train (train.i)}
     <div class="Train" on:click={() => selectTrain(train.i)}>
         <p class="trainHead">Zug: {train.t} {train.n}</p>
         <p>{train.a} {train.d}</p>
