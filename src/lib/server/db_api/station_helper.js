@@ -1,4 +1,4 @@
-import { train_stations_list } from "./static/train_stations_list";
+import { train_stations_list } from "./train_stations_list";
 
 class Station {
   constructor({ EVA_NR, DS100, IFOPT, NAME, Verkehr, Laenge, Breite, Betreiber_Name, Betreiber_Nr, Status }) {
