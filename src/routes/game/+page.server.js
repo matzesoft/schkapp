@@ -17,7 +17,7 @@ export async function load({ cookies }) {
 
     } else if (gameRound.step === resultsStep) {
         returnData.results = gameRound.doEndScreenShit();
-        console.log(returnData.results);
+        console.log(JSON.stringify(returnData.results));
     }
 
     cookies.set('game_round', gameRound.toJson(), { path: '/' });

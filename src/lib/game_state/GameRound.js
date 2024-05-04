@@ -74,29 +74,38 @@ export class GameRound {
     }
     evaluateSips(currentPlayer) {
         let totalSips = 0;
-        let betsResult = {};
+        let betsResult = [];
         let selectedTrain = this.trains.find(train => train.i === Number(this.selectedBets[currentPlayer].trainId));
+        console.log("evaluateSips selectedTrain: "+ JSON.stringify(selectedTrain));
 
         for (let betCode of this.selectedBets[currentPlayer].bets) {
             console.log("evaluateSips betCode: "+ betCode);
+
+            if(selectedTrain.m && selectedTrain.m.length === 0){
+                betCode = -1;
+            }
+
             // Find the corresponding bet in the bets array
             let bet = bets.find(bet => bet.code === betCode);
+
             // Check if the bet exists in the messageCodes of the selected train
-            if (selectedTrain.m.includes(betCode.toString())) {
+            if (betCode !== -1 && selectedTrain.m.includes(betCode.toString())) {
                 // If it does, the bet is correct
-                betsResult[betCode] = true;
+                betsResult.push({id: betCode, isCorrect: true});
+
                 // Add the sips value of the bet to the total sips counter
                 if (bet) {
                     totalSips += bet.sips;
                 }
             } else {
                 // If it doesn't, the bet is not correct
-                betsResult[betCode] = false;
+                betsResult.push(({id: betCode, isCorrect: false}))
                 if(bet){
                  totalSips -= bet.sips;
                 }
             }
         }
+
         return { totalSips, betsResult };
     }
 
