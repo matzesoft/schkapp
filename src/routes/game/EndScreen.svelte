@@ -20,9 +20,15 @@
     {#each gameResults as result, index}
         <div class="Result">
             <p class="playerHead">Player: {index}</p>
-<!--            <p class:positive={result.} class:negative={!result.betWasCorrect}>-->
-<!--                {result.sips} Schlücke {#if result.betWasCorrect === true}Verteilen{:else}Trinken{/if}-->
-<!--            </p>-->
+            <p class:positive={result.totalSips >= 0} class:negative={!result.totalSips < 0}>
+                {result.totalSips} Schlücke {#if result.totalSips >= 0}Verteilen{:else}Trinken{/if}
+            </p>
+
+            {#each result.betsResult as bet}
+                <p>
+                    Wette {bet.id} ist {#if bet.isCorrect}richtig{:else}falsch{/if}
+                </p>
+            {/each}
         </div>
     {/each}
 </main>
