@@ -14,7 +14,21 @@ button {
     height: 70px;
     cursor: pointer;
 }
+button:hover {
+    background-color: orange;
+
+}
+
 .center-button {
     display: block;
     margin: auto;
+    border-radius: 25px;
+}
+
+a:link,
+a:visited,
+a:hover,
+a:active {
+    text-decoration: none;
+    color: inherit;
 }

@@ -7,7 +7,7 @@
 <main>
     <div class="background">
         <div class="top-bar">
-            <h1>Schkapp</h1>
+            <h1 style="color: #2BC0E0; letter-spacing: 5px;">Schkapp</h1>
         </div>
         <div class="content">
             <slot></slot>
@@ -26,7 +26,7 @@
         height: 100vh; /* Cover the full viewport height */
         width: 100vw; /* Cover the full viewport width */
         z-index: -1; /* Keep the background behind other content */
-        background-image: url("/src/lib/img/party-hintergrund.jpg");
+        background-image: url("/src/lib/img/test3.gif");
         background-size: cover; /* Ensure the image covers the entire element */
         background-position: center;
         background-repeat: no-repeat;
@@ -39,7 +39,7 @@
         left: 0;
         width: 100vw;
         height: 50px; /* Adjust the height as needed */
-        background-color: darkgray;
+        background-color: #3D3C3C;
         display: flex;
         justify-content: center;
         align-items: center;
