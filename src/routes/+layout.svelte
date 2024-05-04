@@ -26,7 +26,7 @@
         height: 100vh; /* Cover the full viewport height */
         width: 100vw; /* Cover the full viewport width */
         z-index: -1; /* Keep the background behind other content */
-        background-image: url("/src/lib/img/test3.gif");
+        background-image: url("/src/lib/img/party-hintergrund.jpg");
         background-size: cover; /* Ensure the image covers the entire element */
         background-position: center;
         background-repeat: no-repeat;

@@ -23,6 +23,7 @@ button:hover {
     display: block;
     margin: auto;
     border-radius: 25px;
+    font-size: 30px;
 }
 
 a:link,
