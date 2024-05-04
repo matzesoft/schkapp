@@ -7,7 +7,7 @@
 <main>
     <div class="background">
         <div class="top-bar">
-            <h1>Schkapp</h1>
+            <h1 style="color: #2BC0E0; letter-spacing: 5px;">Schkapp</h1>
         </div>
         <div class="content">
             <slot></slot>
@@ -39,7 +39,7 @@
         left: 0;
         width: 100vw;
         height: 50px; /* Adjust the height as needed */
-        background-color: darkgray;
+        background-color: #3D3C3C;
         display: flex;
         justify-content: center;
         align-items: center;
