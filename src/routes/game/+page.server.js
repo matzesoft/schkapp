@@ -37,19 +37,23 @@ export const actions = {
         switch (gameRound.step) {
             case choosePlayerCountStep:
                 gameRound.setPlayerCount(dataFromPage.get('playerCount'));
+                cookies.set('game_round', gameRound.toJson(), { path: '/' });
                 break;
+
             case chooseTrainStep:
                 gameRound.setSelectedTrainForCurrentPlayer(dataFromPage.get('selectedTrainFromPlayer'));
+                cookies.set('game_round', gameRound.toJson(), { path: '/' });
                 break;
+
             case chooseBetStep:
                 const bets = dataFromPage.get('selectedBetsFromPlayer').split(',').map(Number);
                 gameRound.setSelectedBetsForCurrentPlayer(bets);
+                cookies.set('game_round', gameRound.toJson(), { path: '/' });
                 break;
+
             case resultsStep:
-                // TODO: DO SOMETHING
+                cookies.delete('game_round', { path: '/' });
                 break;
         }
-        
-        cookies.set('game_round', gameRound.toJson(), { path: '/' });
     },
 };
