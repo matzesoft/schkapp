@@ -3,12 +3,23 @@ import {getTraindata} from "$lib/server/db_api/db_api.js";
 export const trainsPerRoundCount = 5;
 
 export class Schkubitrains {
-    constructor(serialized = undefined) {
-        if (serialized) {
-            let jsonData = JSON.parse(serialized);
-            this.trains = jsonData.trains;
-        } else {
-            this.trains = [];
+    static cookieName = 'schkubitrains';
+
+    constructor(cookies = undefined) {
+        this.trains = [];
+
+        if (cookies) {
+            if (cookies.get(Schkubitrains.cookieName)) {
+                let jsonData = JSON.parse(cookies.get(Schkubitrains.cookieName));
+                this.gameRoundStartTime = jsonData.gRST;
+            }
+
+            let trainId = 0;
+            while (cookies.get(Schkubitrains.cookieName + trainId)) {
+                let train = JSON.parse(cookies.get(Schkubitrains.cookieName + trainId));
+                this.trains.push(train);
+                trainId += 1;
+            }
         }
     }
 
@@ -22,9 +33,7 @@ export class Schkubitrains {
     async updateTrainArray() {
         if (this.trains.length === 0) {
             let fetchedTrains = await getTraindata();
-            //console.log("Fetched trains before transformation: ", fetchedTrains);
             this.trains = fetchedTrains.map(this.transformTrainData);
-           // console.log("Fetched trains after Cut: ", this.trains);
             this.gameRoundStartTime = new Date();
         }
         if (this.hasTenMinutesPassed()) {
@@ -78,7 +87,14 @@ export class Schkubitrains {
         return this.trains.slice(0, trainsPerRoundCount);
     }
 
-    toJson() {
-        return JSON.stringify(this);
+    // Stores each train in a separate cookie
+    storeInCookies(cookies) {
+        let jsonData = JSON.stringify({ gRST: this.gameRoundStartTime });
+        cookies.set(Schkubitrains.cookieName, jsonData, { path: '/' });
+
+        for (let i = 0; i < this.trains.length; i++) {
+            let schkubitrain = JSON.stringify(this.trains[i]);
+            cookies.set(Schkubitrains.cookieName + i, schkubitrain, { path: '/' });
+        }
     }
 }
