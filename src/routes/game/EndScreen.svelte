@@ -1,8 +1,9 @@
 
 <script>
+    export let gameResults = [];
 
-    let players = [{ id: 0, sips:"2", betWasCorrect:true, name: "EEMA" }, { id: 1, sips:"4", betWasCorrect:false , name: "Robert" }, { id: 2,sips:"5", betWasCorrect:true , name: "Tomas die Lokomotive" }, { id:3, sips:"500", betWasCorrect:false, name: "Schkuwu"}];
-    function validateIfPlayerneedsToDrink() {
+    //let players = [{ id: 0, sips:"2", betWasCorrect:true, name: "EEMA" }, { id: 1, sips:"4", betWasCorrect:false , name: "Robert" }, { id: 2,sips:"5", betWasCorrect:true , name: "Tomas die Lokomotive" }, { id:3, sips:"500", betWasCorrect:false, name: "Schkuwu"}];
+    //function validateIfPlayerneedsToDrink() {
         // players.forEach(player => {
         //     if (player.sips > 0) {
         //         player.sips -= 1;
@@ -12,20 +13,24 @@
         //     }
         // });
 
-    }
+    //}
 </script>
 
 <main>
-    {#each players as player (player.id)}
-        <div class="Player">
-            <p class="playerHead">Player: {player.name}</p>
-            <p class:positive={player.betWasCorrect}
-                class:negative={!player.betWasCorrect}>{player.sips} Schlücke
-                {#if player.betWasCorrect === true}Verteilen{:else}Trinken{/if}
-                    </p>
+    {#each gameResults as result, index}
+        <div class="Result">
+            <p class="playerHead">Player: {index}</p>
+            <p class:positive={result.totalSips >= 0} class:negative={!result.totalSips < 0}>
+                {result.totalSips} Schlücke {#if result.totalSips >= 0}Verteilen{:else}Trinken{/if}
+            </p>
+
+            {#each result.betsResult as bet}
+                <p>
+                    Wette {bet.id} ist {#if bet.isCorrect}richtig{:else}falsch{/if}
+                </p>
+            {/each}
         </div>
     {/each}
-
 </main>
 
 
@@ -48,7 +53,7 @@
         font-size: 1.5em;
         font-weight: bold;
     }
-    .Player {
+    .Result {
         border: 2px solid #000; /* Add a border around each train */
         border-radius: 10px; /* Round the corners */
         padding: 10px; /* Add some space inside the box */

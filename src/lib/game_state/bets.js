@@ -1,5 +1,10 @@
 export const bets = [
     {
+        code: -1,
+        message: "kein Ereigniss",
+        sips: 1
+    },
+    {
         code: 0,
         message: "keine Verspätungsbegründung",
         sips: 1

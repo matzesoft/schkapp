@@ -1,6 +1,5 @@
 import {getTraindata} from "$lib/server/db_api/db_api.js";
-
-export const trainsPerRoundCount = 5;
+import {trainsPerRoundCount} from "$lib/constants.js";
 
 export class Schkubitrains {
     static cookieName = 'schkubitrains';
@@ -33,10 +32,9 @@ export class Schkubitrains {
     async updateTrainArray() {
         if (this.trains.length === 0) {
             let fetchedTrains = await getTraindata();
-            //this.trains = fetchedTrains.map(this.transformTrainData);
             this.trains = fetchedTrains.map((train, index) => this.transformTrainData(train, index));
             this.gameRoundStartTime = new Date();
-            console.log(this.trains);
+            //console.log(this.trains);
         }
         if (this.hasTenMinutesPassed()) {
             this.trains = await getTraindata();
@@ -72,7 +70,6 @@ export class Schkubitrains {
             }
         }
 
-        // Return transformed train object
         return {
             i: inderIndex,
             n: train.tripLabel.zugNummer,

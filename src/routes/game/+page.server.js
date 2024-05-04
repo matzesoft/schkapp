@@ -6,17 +6,25 @@ import {chooseBetStep, choosePlayerCountStep, chooseTrainStep, resultsStep} from
 export async function load({ cookies }) {
     const gameRound = new GameRound(cookies.get('game_round'));
 
+    let returnData = {};
+
     /// gameRound.step is undefined if no gameRound has started yet
     if (gameRound.step === undefined) {
         const schkubitrains = new Schkubitrains(cookies);
         const trains = await schkubitrains.getTrainArray();
         schkubitrains.storeInCookies(cookies);
-
         await gameRound.createRound(trains);
+
+    } else if (gameRound.step === resultsStep) {
+        returnData.results = gameRound.doEndScreenShit();
+        console.log(JSON.stringify(returnData.results));
     }
 
     cookies.set('game_round', gameRound.toJson(), { path: '/' });
-    return { step: gameRound.step, trains: gameRound.trains, currentPlayer: gameRound.currentPlayer };
+    returnData.step = gameRound.step;
+    returnData.trains = gameRound.trains;
+    returnData.currentPlayer = gameRound.currentPlayer;
+    return returnData;
 }
 
 export const actions = {
@@ -29,19 +37,23 @@ export const actions = {
         switch (gameRound.step) {
             case choosePlayerCountStep:
                 gameRound.setPlayerCount(dataFromPage.get('playerCount'));
+                cookies.set('game_round', gameRound.toJson(), { path: '/' });
                 break;
+
             case chooseTrainStep:
                 gameRound.setSelectedTrainForCurrentPlayer(dataFromPage.get('selectedTrainFromPlayer'));
+                cookies.set('game_round', gameRound.toJson(), { path: '/' });
                 break;
+
             case chooseBetStep:
                 const bets = dataFromPage.get('selectedBetsFromPlayer').split(',').map(Number);
-                gameRound.setSelectedBetsForCurrentPlayer(bets); // TODO: Add the actual bets from the page
+                gameRound.setSelectedBetsForCurrentPlayer(bets);
+                cookies.set('game_round', gameRound.toJson(), { path: '/' });
                 break;
+
             case resultsStep:
-                // TODO: DO SOMETHING
+                cookies.delete('game_round', { path: '/' });
                 break;
         }
-        
-        cookies.set('game_round', gameRound.toJson(), { path: '/' });
     },
 };
