@@ -1,6 +1,5 @@
 import {getTraindata} from "$lib/server/db_api/db_api.js";
-
-export const trainsPerRoundCount = 5;
+import {trainsPerRoundCount} from "$lib/constants.js";
 
 export class Schkubitrains {
     static cookieName = 'schkubitrains';
