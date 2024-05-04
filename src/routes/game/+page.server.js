@@ -6,17 +6,24 @@ import {chooseBetStep, choosePlayerCountStep, chooseTrainStep, resultsStep} from
 export async function load({ cookies }) {
     const gameRound = new GameRound(cookies.get('game_round'));
 
+    let returnData = {};
+
     /// gameRound.step is undefined if no gameRound has started yet
     if (gameRound.step === undefined) {
         const schkubitrains = new Schkubitrains(cookies);
         const trains = await schkubitrains.getTrainArray();
         schkubitrains.storeInCookies(cookies);
-
         await gameRound.createRound(trains);
+
+    } else if (gameRound.step === resultsStep) {
+        returnData.results = gameRound.doEndScreenShit();
     }
 
     cookies.set('game_round', gameRound.toJson(), { path: '/' });
-    return { step: gameRound.step, trains: gameRound.trains, currentPlayer: gameRound.currentPlayer };
+    returnData.step = gameRound.step;
+    returnData.trains = gameRound.trains;
+    returnData.currentPlayer = gameRound.currentPlayer;
+    return returnData;
 }
 
 export const actions = {
