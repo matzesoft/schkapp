@@ -5,18 +5,17 @@ import {chooseBetStep, choosePlayerCountStep, chooseTrainStep, resultsStep} from
 /** @type {import('./$types').PageServerLoad} */
 export async function load({ cookies }) {
     const gameRound = new GameRound(cookies.get('game_round'));
-    const schkubitrains = new Schkubitrains(cookies.get('trains'));
-    const trains = await schkubitrains.getTrainArray();
 
     /// gameRound.step is undefined if no gameRound has started yet
     if (gameRound.step === undefined) {
+        const schkubitrains = new Schkubitrains(cookies);
         const trains = await schkubitrains.getTrainArray();
+        schkubitrains.storeInCookies(cookies);
+
         await gameRound.createRound(trains);
     }
 
-    console.log(schkubitrains.toJson());
     cookies.set('game_round', gameRound.toJson(), { path: '/' });
-    cookies.set('schkubitrains', schkubitrains.toJson(), { path: '/' });
     return { step: gameRound.step, trains: gameRound.trains, currentPlayer: gameRound.currentPlayer };
 }
 
