@@ -1,4 +1,5 @@
 import {chooseBetStep, choosePlayerCountStep, chooseTrainStep, resultsStep} from "$lib/constants.js";
+import {bets} from "$lib/game_state/bets.js";
 
 export class GameRound {
     constructor(serialized = undefined) {
@@ -51,7 +52,41 @@ export class GameRound {
             this.setStep(chooseTrainStep);
             this.currentPlayer += 1;
         }
+
+
     }
+
+    doEndScreenShit() {
+
+    }
+    evaluateSips() {
+        let totalSips = 0;
+        let betsResult = {};
+        let selectedTrain = this.trains.find(train => train.i === this.selectedBets[this.currentPlayer].trainId);
+
+        for (let betCode of this.selectedBets[this.currentPlayer].bets) {
+            // Check if the bet exists in the messageCodes of the selected train
+            if (selectedTrain.m.includes(betCode.toString())) {
+                // If it does, the bet is correct
+                betsResult[betCode] = true;
+
+                // Find the corresponding bet in the bets array
+                let bet = bets.find(bet => bet.code === betCode);
+
+                // Add the sips value of the bet to the total sips counter
+                if (bet) {
+                    totalSips += bet.sips;
+                }
+            } else {
+                // If it doesn't, the bet is not correct
+                betsResult[betCode] = false;
+            }
+
+        }
+
+        return { totalSips, betsResult };
+    }
+
 
     toJson() {
         return JSON.stringify({
