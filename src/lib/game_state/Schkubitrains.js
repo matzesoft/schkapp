@@ -33,7 +33,6 @@ export class Schkubitrains {
     async updateTrainArray() {
         if (this.trains.length === 0) {
             let fetchedTrains = await getTraindata();
-            //this.trains = fetchedTrains.map(this.transformTrainData);
             this.trains = fetchedTrains.map((train, index) => this.transformTrainData(train, index));
             this.gameRoundStartTime = new Date();
             //console.log(this.trains);
@@ -72,7 +71,6 @@ export class Schkubitrains {
             }
         }
 
-        // Return transformed train object
         return {
             i: inderIndex,
             n: train.tripLabel.zugNummer,
