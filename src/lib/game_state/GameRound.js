@@ -1,4 +1,11 @@
-import {chooseBetStep, choosePlayerCountStep, chooseTrainStep, resultsStep} from "$lib/constants.js";
+import {
+    chooseBetStep,
+    choosePlayerCountStep,
+    chooseTrainStep,
+    maxPlayerCount,
+    minPlayerCount,
+    resultsStep
+} from "$lib/constants.js";
 import {bets} from "$lib/game_state/bets.js";
 
 export class GameRound {
@@ -31,7 +38,7 @@ export class GameRound {
     }
 
     setPlayerCount(playerCount) {
-        if (playerCount < 1 && playerCount > 10) {
+        if (playerCount < minPlayerCount && playerCount > maxPlayerCount) {
             throw new Error("Invalid player count");
         }
         this.playerCount = playerCount;

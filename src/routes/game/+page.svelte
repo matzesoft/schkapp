@@ -9,33 +9,19 @@
         chooseBetStep,
         resultsStep,
     } from "$lib/constants.js";
+    import PlayerCount from "./PlayerCount.svelte";
 
     export let data;
     $: gameStep = data.step;
     $: currentPlayer = data.currentPlayer;
     $: trains = data.trains;
+    $: gameResults = data.results;
+
+    let playerCountFromComponent = 1;
     let selectedTrainFromComponent = null;
     let selectedBetsFromComponent = [];
 
     let y;
-    function SelectTrain() {
-        gameStep = 0;
-    }
-    function placeBet() {
-        gameStep = 1;
-    }
-    function resultScreen() {
-        gameStep = 2;
-    }
-
-    let number = 1;
-
-    function validateNumber(value) {
-        const num = parseInt(value);
-        if (num >= 1 && num <= 7) {
-            number = num;
-        }
-    }
 </script>
 
 <svelte:window bind:scrollY={y} />
@@ -44,23 +30,16 @@
     <main>
         <form method="POST" action="?/nextRoundStep">
             {#if gameStep === choosePlayerCountStep}
-                <h3>ChoosePlayerCount</h3>
-                <!-- Eingabefeld für die Zahl -->
+                <h3>Wähle die Anzahl an Spielern:</h3>
                 <input
-                    name="playerCount"	
-                    type="number"
-                    min="1"
-                    max="10"
-                    bind:value={number}
-                    on:input={(event) => validateNumber(event.target.value)}
+                        name="playerCount"
+                        type="hidden"
+                        value={playerCountFromComponent}
                 />
-
-                <!-- Ausgabe der eingegebenen Zahl -->
-                <p>Die eingegebene Zahl ist: {number}</p>
+                <PlayerCount bind:count={playerCountFromComponent}/>
 
             {:else if gameStep === chooseTrainStep}
-                //TODO ADD PLAYER
-                <h3>Current Player: {currentPlayer}</h3>
+                <h3>Current Player: {currentPlayer + 1}</h3>
                 <input
                     name="selectedTrainFromPlayer"
                     disabled={selectedTrainFromComponent == null}
@@ -70,7 +49,7 @@
                 <SelectTrains {trains} bind:selectedTrain={selectedTrainFromComponent} />
 
             {:else if gameStep === chooseBetStep}
-                <h3>Current Player: {currentPlayer}</h3>
+                <h3>Current Player: {currentPlayer + 1}</h3>
                 <input
                     name="selectedBetsFromPlayer"
                     
@@ -81,8 +60,8 @@
                 <PlaceBet bind:selectedBets={selectedBetsFromComponent} />
 
             {:else if gameStep === resultsStep}
-                <h1>GAME OVER!</h1>
-                <EndScreen />
+                <EndScreen {gameResults}/>
+
             {:else}
                 <h1>Unknown game Status</h1>
             {/if}
