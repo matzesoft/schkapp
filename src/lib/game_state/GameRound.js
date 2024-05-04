@@ -46,14 +46,14 @@ export class GameRound {
     }
 
     setSelectedTrainForCurrentPlayer(trainId) {
-        this.selectedBets[this.currentPlayer] = { trainId: trainId, bets: [] };
+        this.selectedBets[this.currentPlayer] = {trainId: trainId, bets: []};
         this.setStep(chooseBetStep);
     }
 
     setSelectedBetsForCurrentPlayer(bets) {
         this.selectedBets[this.currentPlayer].bets = bets;
 
-        if (this.currentPlayer === this.playerCount-1) {
+        if (this.currentPlayer === this.playerCount - 1) {
             this.setStep(resultsStep);
         } else {
             this.setStep(chooseTrainStep);
@@ -72,6 +72,7 @@ export class GameRound {
         }
         return results;
     }
+
     evaluateSips(currentPlayer) {
         let totalSips = 0;
         let betsResult = [];
