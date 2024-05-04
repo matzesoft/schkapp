@@ -8,7 +8,7 @@
         chooseTrainStep,
         chooseBetStep,
         resultsStep,
-    } from "$lib/constants.js";
+    } from "$lib/game/constants.js";
     import PlayerCount from "./PlayerCount.svelte";
 
     export let data;

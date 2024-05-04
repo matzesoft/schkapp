@@ -1,5 +1,5 @@
 <script>
-    import { bets } from "$lib/game_state/bets.js";
+    import { bets } from "$lib/game/bets.js";
     export let selectedBets = [];
 
     function placeBet(code) {

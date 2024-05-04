@@ -1,6 +1,6 @@
-import {GameRound} from "$lib/game_state/GameRound.js";
-import {Schkubitrains} from "$lib/game_state/Schkubitrains.js";
-import {chooseBetStep, choosePlayerCountStep, chooseTrainStep, resultsStep} from "$lib/constants.js";
+import {GameRound} from "$lib/game/GameRound.js";
+import {Schkubitrains} from "$lib/game/Schkubitrains.js";
+import {chooseBetStep, choosePlayerCountStep, chooseTrainStep, resultsStep} from "$lib/game/constants.js";
 
 /** @type {import('./$types').PageServerLoad} */
 export async function load({ cookies }) {

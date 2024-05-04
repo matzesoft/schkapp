@@ -5,8 +5,8 @@ import {
     maxPlayerCount,
     minPlayerCount,
     resultsStep
-} from "$lib/constants.js";
-import {bets} from "$lib/game_state/bets.js";
+} from "$lib/game/constants.js";
+import {bets} from "$lib/game/bets.js";
 
 export class GameRound {
     constructor(serialized = undefined) {

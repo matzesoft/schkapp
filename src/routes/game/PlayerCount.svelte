@@ -1,6 +1,6 @@
 <script>
     import { spring } from 'svelte/motion';
-    import { minPlayerCount, maxPlayerCount } from '$lib/constants.js';
+    import { minPlayerCount, maxPlayerCount } from '$lib/game/constants.js';
 
     export let count = 1;
 

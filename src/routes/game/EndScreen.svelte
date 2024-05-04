@@ -1,6 +1,6 @@
 
 <script>
-    import { bets } from "$lib/game_state/bets.js";
+    import { bets } from "$lib/game/bets.js";
     export let gameResults = [];
 
     function getBetName(id) {
