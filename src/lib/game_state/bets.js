@@ -1,12 +1,12 @@
 export const bets = [
     {
         code: -1,
-        message: "kein Ereigniss",
+        message: "Kein Ereigniss",
         sips: 1
     },
     {
         code: 0,
-        message: "keine Verspätungsbegründung",
+        message: "Keine Verspätungsbegründung",
         sips: 1
     },
     {
@@ -16,7 +16,7 @@ export const bets = [
     },
     {
         code: 4,
-        message: "kurzfristiger Personalausfall",
+        message: "Kurzfristiger Personalausfall",
         sips: 2
     },
     {
@@ -46,7 +46,7 @@ export const bets = [
     },
     {
         code: 36,
-        message: "technische Störung am Zug",
+        message: "Technische Störung am Zug",
         sips: 3
     },
     {
@@ -61,7 +61,7 @@ export const bets = [
     },
     {
         code: 47,
-        message: "verspätete Bereitstellung des Zuges",
+        message: "Verspätete Bereitstellung des Zuges",
         sips: 3
     },
     {
@@ -71,12 +71,12 @@ export const bets = [
     },
     {
         code: 80,
-        message: "andere Reihenfolge der Wagen",
+        message: "Andere Reihenfolge der Wagen",
         sips: 2
     },
     {
         code: 82,
-        message: "mehrere Wagen fehlen",
+        message: "Mehrere Wagen fehlen",
         sips: 3
     },
 ];

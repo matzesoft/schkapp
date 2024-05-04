@@ -1,32 +1,25 @@
 
 <script>
+    import { bets } from "$lib/game_state/bets.js";
     export let gameResults = [];
 
-    //let players = [{ id: 0, sips:"2", betWasCorrect:true, name: "EEMA" }, { id: 1, sips:"4", betWasCorrect:false , name: "Robert" }, { id: 2,sips:"5", betWasCorrect:true , name: "Tomas die Lokomotive" }, { id:3, sips:"500", betWasCorrect:false, name: "Schkuwu"}];
-    //function validateIfPlayerneedsToDrink() {
-        // players.forEach(player => {
-        //     if (player.sips > 0) {
-        //         player.sips -= 1;
-        //         if (player.sips === 0) {
-        //             console.log(player.name + " hat ausgetrunken");
-        //         }
-        //     }
-        // });
-
-    //}
+    function getBetName(id) {
+        const bet = bets.find(bet => bet.code === id);
+        return bet ? bet.message : "Unbekannte Wette";
+    }
 </script>
 
 <main>
     {#each gameResults as result, index}
         <div class="Result">
-            <p class="playerHead">Player: {index}</p>
-            <p class:positive={result.totalSips >= 0} class:negative={!result.totalSips < 0}>
-                {result.totalSips} Schlücke {#if result.totalSips >= 0}Verteilen{:else}Trinken{/if}
+            <p class="playerHead">Spieler {index+1}</p>
+            <p class:positive={result.totalSips > 0} class:negative={result.totalSips <= 0}>
+                {Math.abs(result.totalSips)} Schlücke {#if result.totalSips > 0}Verteilen{:else}Trinken{/if}
             </p>
 
             {#each result.betsResult as bet}
                 <p>
-                    Wette {bet.id} ist {#if bet.isCorrect}richtig{:else}falsch{/if}
+                    {getBetName(bet.id)} ist {#if bet.isCorrect}richtig{:else}falsch{/if}
                 </p>
             {/each}
         </div>
