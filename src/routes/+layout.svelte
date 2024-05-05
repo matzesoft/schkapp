@@ -26,7 +26,7 @@
         height: 100vh;
         width: 100vw;
         z-index: -1;
-        background-image: url("/src/lib/img/moving-background.gif");
+        background-image: url("/src/lib/img/party-hintergrund.jpg");
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
