@@ -8,7 +8,7 @@ export async function load({ cookies }) {
 
     let returnData = {};
 
-    /// gameRound.step is undefined if no gameRound has started yet
+
     if (gameRound.step === undefined) {
         const schkubitrains = new Schkubitrains(cookies);
         const trains = await schkubitrains.getTrainArray();
