@@ -30,38 +30,45 @@
     <main>
         <form method="POST" action="?/nextRoundStep">
             {#if gameStep === choosePlayerCountStep}
-                <h3>Wähle die Anzahl an Spielern:</h3>
+                <div class="title">
+                    <h3>Wähle die Anzahl an Spielern:</h3>
+                </div>
                 <input
-                        name="playerCount"
-                        type="hidden"
-                        value={playerCountFromComponent}
+                    name="playerCount"
+                    type="hidden"
+                    value={playerCountFromComponent}
                 />
-                <PlayerCount bind:count={playerCountFromComponent}/>
-
+                <PlayerCount bind:count={playerCountFromComponent} />
             {:else if gameStep === chooseTrainStep}
-                <h3>Current Player: {currentPlayer + 1}</h3>
+                <div class="title">
+                    <h3>Spieler {currentPlayer + 1} wähle ein Zug</h3>
+                </div>
                 <input
                     name="selectedTrainFromPlayer"
                     disabled={selectedTrainFromComponent == null}
                     type="hidden"
                     value={selectedTrainFromComponent}
                 />
-                <SelectTrains {trains} bind:selectedTrain={selectedTrainFromComponent} />
-
+                <SelectTrains
+                    {trains}
+                    bind:selectedTrain={selectedTrainFromComponent}
+                />
             {:else if gameStep === chooseBetStep}
-                <h3>Current Player: {currentPlayer + 1}</h3>
+                <div class="title">
+                    <h3>Spieler {currentPlayer + 1} wähle deine Wette</h3>
+                </div>
                 <input
                     name="selectedBetsFromPlayer"
-                    
                     disabled={selectedBetsFromComponent == null}
                     type="hidden"
                     value={selectedBetsFromComponent}
                 />
                 <PlaceBet bind:selectedBets={selectedBetsFromComponent} />
-
             {:else if gameStep === resultsStep}
-                <EndScreen {gameResults}/>
-
+                <div class="title">
+                    <h3>Ergebnisse</h3>
+                </div>
+                <EndScreen {gameResults} />
             {:else}
                 <h1>Unknown game Status</h1>
             {/if}
@@ -69,8 +76,6 @@
         </form>
     </main>
 </div>
-
-<div>{@html "Server data.step:" + data.step}</div>
 
 <style>
     #scroll-content {
@@ -80,5 +85,11 @@
     main {
         background-color: rgba(250, 250, 250, 0.9);
         padding: 5px;
+    }
+    .title {
+        letter-spacing: 1px;
+        padding-top: 5px;
+        justify-content: center;
+        display: flex;
     }
 </style>
