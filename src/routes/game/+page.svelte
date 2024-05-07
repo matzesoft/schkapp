@@ -83,10 +83,6 @@
         height: 85vh;
         /*padding-bottom: 103vh; */
     }
-    main {
-        background-color: rgba(250, 250, 250, 0.9);
-        padding: 5px;
-    }
     .title {
         letter-spacing: 1px;
         padding-top: 5px;

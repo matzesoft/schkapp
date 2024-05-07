@@ -6,6 +6,11 @@
     font-style: normal;
 }
 
+main {
+    background-color: rgba(250, 250, 250, 0.9);
+    padding: 5px;
+}
+
 button {
     font-family: "Lilita One", sans-serif;
     background-color: #2BC0E0;
