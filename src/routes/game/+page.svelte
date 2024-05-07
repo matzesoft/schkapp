@@ -80,7 +80,8 @@
 <style>
     #scroll-content {
         overflow-y: auto;
-        height: 90vh;
+        height: 94vh;
+        padding-bottom: 103vh;
     }
     main {
         background-color: rgba(250, 250, 250, 0.9);
