@@ -4,25 +4,25 @@
 
     function placeBet(code) {
         if (selectedBets.includes(code)) {
-            selectedBets.pop(code);
+            selectedBets = selectedBets.filter((b) => b !== code);
         } else {
-            selectedBets.push(code);
+            selectedBets = [...selectedBets, code];
         }
-        console.log(selectedBets);
     }
 </script>
 
 <main>
     {#each bets as bet (bet.code)}
-    <label>
-        <div class={selectedBets.includes(bet.code) ? 'Bet selected' : 'Bet'} on:click={() => placeBet(bet.code)}>
-            <p class="betHead">{bet.message}</p>
-            <p>Anzahl an Schlücken: {bet.sips}</p>
-            <input type="checkbox" bind:group={selectedBets} value={bet.code} />
-        </div>
-    </label>
+        <label>
+            <div
+                class={selectedBets.includes(bet.code) ? "Bet selected" : "Bet"}
+                on:click={() => placeBet(bet.code)}
+            >
+                <center><p class="betHead">{bet.message}</p></center>
+                <p>Anzahl an Schlücken: {bet.sips}</p>
+            </div>
+        </label>
     {/each}
-    Selected Bet: {selectedBets}
 </main>
 
 <style>
@@ -34,21 +34,19 @@
     .betHead {
         font-size: 1.5em;
         font-weight: bold;
+        margin-top: 20px;
+        margin-bottom: 10px;
     }
     .Bet {
-        border: 2px solid #000; /* Add a border around each train */
-        border-radius: 10px; /* Round the corners */
-        padding: 3px; /* Add some space inside the box */
-        margin-bottom: 10px; /* Add some space between the boxes */
-        background-color: rgba(
-            255,
-            255,
-            255,
-            0.8
-        ); /* Add a semi-transparent white background */
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Add a shadow for a 3D effect */
+        border: 2px solid #000;
+        border-radius: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+        margin-bottom: 10px;
+        background-color: rgba(255, 255, 255, 0.8);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     }
     .selected {
-        background-color: #2BC0E0; /* Light green, for example */
+        background-color: #2bc0e0;
     }
 </style>

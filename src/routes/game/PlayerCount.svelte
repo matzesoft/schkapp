@@ -38,6 +38,8 @@
     .counter {
         display: flex;
         margin: 1rem 0;
+        align-items: center;
+        justify-content: center;
     }
 
     .counter button {

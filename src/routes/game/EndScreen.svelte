@@ -33,6 +33,9 @@
         flex-direction: column;
         align-items: center;
     }
+    p{
+        margin: 10px;
+    }
     .positive {
         color: limegreen;
         font-weight: bold;
@@ -45,13 +48,16 @@
     .playerHead {
         font-size: 1.5em;
         font-weight: bold;
+        margin-top: 20px;
+        margin-bottom: 10px;
     }
     .Result {
-        border: 2px solid #000; /* Add a border around each train */
-        border-radius: 10px; /* Round the corners */
-        padding: 10px; /* Add some space inside the box */
-        margin-bottom: 10px; /* Add some space between the boxes */
-        background-color: rgba(255, 255, 255, 0.8); /* Add a semi-transparent white background */
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5); /* Add a shadow for a 3D effect */
+        border: 2px solid #000;
+        border-radius: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+        margin-bottom: 5px;
+        background-color: rgba(255, 255, 255, 0.8);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     }
 </style>
