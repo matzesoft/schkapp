@@ -25,7 +25,8 @@
         position: fixed;
         top: 0;
         left: 0;
-        width: 100vw;
+        right: 0;
+        width: 100%;
         height: 70px;
         background-color: #3d3c3c;
         display: flex;
@@ -43,13 +44,12 @@
     }
 
     main {
-        flex: 1;
         display: flex;
         flex-direction: column;
         padding: 1rem;
         width: 100%;
         max-width: 64rem;
-        overflow-y: auto;
+        box-sizing: border-box;
         margin: 90px auto 0;
 
         background-color: rgba(250, 250, 250, 0.9);
