@@ -1,6 +1,12 @@
 # Schkapp
-Schkapp is a drinking game build with SvelteKit and the DeutscheBahn Timetable API. It was part of a student project at the DHBW Stuttgart.
+Schkapp is a drinking game build with Vite, SvelteKit and the DeutscheBahn Timetable API. It was part of a student project at the DHBW Stuttgart.
 Visit [schkapp.pages.dev](https://schkapp.pages.dev) to play. If you want to learn more about the project itself keep reading.
+
+#### Contents
+* The Game
+* Run the project
+* How it was build
+* Have fun
 
 
 ## The Game
@@ -48,6 +54,9 @@ trains cannot occur again.
 ### End of Game
 When hammered.
 
+## Run the project
+If you have cloned the repo you can run it by using `npm run dev`.
+
 
 ## How it was build
 
@@ -73,7 +82,7 @@ Schkapp contains of three routes:
 * `/how-to-play` - Information on how to play the game.
 
 ### Hosting
-Schkapp is hosted using [Cloudflare pages](https://pages.cloudflare.com) and the [SvelteKit Cloudflare adapter](https://kit.svelte.dev/docs/adapter-cloudflare).
+Schkapp is hosted using [Cloudflare pages](https://pages.cloudflare.com) and the [SvelteKit Cloudflare adapter](https://kit.svelte.dev/docs/adapter-cloudflare). Cloudflare automatically executes `vite build` and deploys to [schkapp.pages.dev](https://schkapp.pages.dev)
 
 ## Have fun
 Schkapp was build to have fun, so stop coding and take a break 🍻 If you are a nerdy enough to keep coding, you can open an issue or send an email if you have any question or suggestions.
