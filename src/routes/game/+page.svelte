@@ -72,7 +72,7 @@
             {:else}
                 <h1>Unknown game Status</h1>
             {/if}
-            <button class="center-button">NEXT!</button>
+            <button class="center-button" disabled={(gameStep === chooseTrainStep && selectedTrainFromComponent == null) || (gameStep === chooseBetStep && selectedBetsFromComponent.length === 0)}>NEXT!</button>
         </form>
     </main>
 </div>
