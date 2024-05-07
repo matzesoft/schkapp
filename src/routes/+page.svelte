@@ -1,9 +1,9 @@
-<main>
-    <button class="center-button" style="margin-top: 40px;">
-        <a href="/game"> Zum Spiel </a>
+<div>
+    <button class="center-button">
+        <a href="/game"> Spiel starten </a>
     </button>
 
-    <button class="center-button" style="margin-top: 20px;">
-        <a href="/about"> Zu About </a>
+    <button class="center-button">
+        <a href="/about"> Anleitung </a>
     </button>
-</main>
+</div>
