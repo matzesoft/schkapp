@@ -7,7 +7,7 @@
 
     <span>
         <button class="center-button">
-            <a href="/about"> Anleitung </a>
+            <a href="/how-to-play"> Anleitung </a>
         </button>
     </span>
 </div>
