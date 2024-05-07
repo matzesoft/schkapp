@@ -48,11 +48,11 @@ export class Schkubitrains {
     transformTrainData(train, inderIndex){
         // Create start and end stations strings
         let arrivalStartStation = typeof train.arrival.vonIrgendwoNachStation === 'string'
-            ? train.arrival.vonIrgendwoNachStation.split('|')[0] + " -> Stuttgart-HBF"
+            ? train.arrival.vonIrgendwoNachStation.split('|')[0] + " -> "
             : null;
 
         let departureEndStation = typeof train.departure.abStationNachIrgendwo === 'string'
-            ? "Stuttgart-HBF -> " + train.departure.abStationNachIrgendwo.split('|').pop()
+            ? " -> " + train.departure.abStationNachIrgendwo.split('|').pop()
             : null;
 
         // Create messageCodes array

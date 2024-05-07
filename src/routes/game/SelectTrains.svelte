@@ -14,7 +14,7 @@
             on:click={() => selectTrain(train.i)}
         >
             <center><p class="trainHead">Zug: {train.t} {train.n}</p></center>
-            <p>{train.a} {train.d}</p>
+            <p> {#if train.a !== null} {train.a} {/if} Stuttgart HBF {#if train.d !== null }{train.d} {/if}</p>
         </div>
     {/each}
 </main>
