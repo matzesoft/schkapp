@@ -9,7 +9,6 @@
         <h1>Schkapp</h1>
     </header>
 
-    <div class="background"></div>
     <main>
         <slot/>
     </main>
@@ -20,23 +19,6 @@
         display: flex;
         flex-direction: column;
         min-height: 100vh;
-    }
-
-    .background {
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        z-index: -1;
-        background-image: url("/src/lib/img/party-hintergrund.jpg");
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-attachment: fixed;
-        filter: brightness(0.9);
     }
 
     header {

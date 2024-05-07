@@ -4,6 +4,7 @@
     font-family: "Lilita One", sans-serif;
     font-weight: 400;
     font-style: normal;
+    background-image: url("/src/lib/img/party-hintergrund.jpg");
 }
 
 button {
