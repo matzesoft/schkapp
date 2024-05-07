@@ -67,12 +67,13 @@ The game state and logic can be found under [`src/lib/game`](https://github.com/
 * `Schkubitrains.js` stores the last query of trains. This makes sure that you don't play with the same trains, when playing multiple rounds in a short period of time. Schkubitrains cycles through the last stored trains and always gives you five new trains with which you haven't played with yet.
 
 ### Routes
-
 Schkapp contains of three routes:
 * `/` - Startpage with links to the other two routes.
 * `/game` - Where the magic happens, the game.
 * `/how-to-play` - Information on how to play the game.
 
+### Hosting
+Schkapp is hosted using [Cloudflare pages](https://pages.cloudflare.com) and the [SvelteKit Cloudflare adapter](https://kit.svelte.dev/docs/adapter-cloudflare).
 
 ## Have fun
 Schkapp was build to have fun, so stop coding and take a break 🍻 If you are a nerdy enough to keep coding, you can open an issue or send an email if you have any question or suggestions.
