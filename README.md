@@ -55,7 +55,10 @@ trains cannot occur again.
 When hammered.
 
 ## Run the project
-If you have cloned the repo you can run it by using `npm run dev`.
+To run the project you need your own Deutsche Bahn Timetable API Keys. You can request them here: [developers.deutschebahn.com](https://developers.deutschebahn.com/db-api-marketplace/apis/product/timetables).
+After you got your keys, past them inside the `.env_template` file and rename it to `.env`.
+
+After that you can just run `npm run dev`.
 
 
 ## How it was build
