@@ -1,13 +1,14 @@
 import ApiAuthentication from './api_auth.js';
 import StationHelper from './station_helper.js';
 import TimetableHelper from './timetable_helper.js';
+import { DB_API_CLIENT_ID, DB_API_CLIENT_SECRET } from '$env/static/private';
 
 // getTraindata will return a List of all trains that are requested by Name
 
 export async function getTraindata() {
 
     try {
-        const auth = new ApiAuthentication("5fd2b016e4dd99c7b316b1e0b0237c0e", "f51572fc813c9361325535f47c17ea2d");
+        const auth = new ApiAuthentication(DB_API_CLIENT_ID, DB_API_CLIENT_SECRET);
         const stationHelper = new StationHelper();
         const station = await stationHelper.findStationsByName('Stuttgart');
 
