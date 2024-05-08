@@ -1,7 +1,3 @@
-<script>
-    let y;
-</script>
-
 <div>
     <div>
         <h1 style="margin-top: 0px">Spielidee</h1>
