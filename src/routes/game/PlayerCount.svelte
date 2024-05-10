@@ -1,6 +1,6 @@
 <script>
-    import { spring } from 'svelte/motion';
-    import { minPlayerCount, maxPlayerCount } from '$lib/game/constants.js';
+    import {spring} from 'svelte/motion';
+    import {minPlayerCount, maxPlayerCount} from '$lib/game/constants.js';
 
     export let count = 1;
 
@@ -16,7 +16,7 @@
 <div class="counter">
     <button on:click={() => {count -= 1}} type="button" disabled={count === minPlayerCount}>
         <svg aria-hidden="true" viewBox="0 0 1 1">
-            <path d="M0,0.5 L1,0.5" />
+            <path d="M0,0.5 L1,0.5"/>
         </svg>
     </button>
 
@@ -29,7 +29,7 @@
 
     <button on:click={() => {count += 1}} type="button" disabled="{count === maxPlayerCount}">
         <svg aria-hidden="true" viewBox="0 0 1 1">
-            <path d="M0,0.5 L1,0.5 M0.5,0 L0.5,1" />
+            <path d="M0,0.5 L1,0.5 M0.5,0 L0.5,1"/>
         </svg>
     </button>
 </div>
