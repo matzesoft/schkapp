@@ -17,7 +17,6 @@ export async function load({ cookies }) {
 
     } else if (gameRound.step === resultsStep) {
         returnData.results = gameRound.doEndScreenShit();
-        console.log(JSON.stringify(returnData.results));
     }
 
     cookies.set('game_round', gameRound.toJson(), { path: '/' });
@@ -32,7 +31,7 @@ export const actions = {
     nextRoundStep: async ({ request, cookies }) => {
         const gameRound = new GameRound(cookies.get('game_round'));
         const dataFromPage = await request.formData();
-        console.log(dataFromPage);
+        //console.log(dataFromPage);
 
         switch (gameRound.step) {
             case choosePlayerCountStep:

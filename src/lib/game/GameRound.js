@@ -26,8 +26,6 @@ export class GameRound {
         this.currentPlayer = 0;
         this.trains = trains;
         this.selectedBets = [];
-
-        console.log(this.currentPlayer);
     }
 
     setStep(step) {
@@ -77,22 +75,14 @@ export class GameRound {
         let totalSips = 0;
         let betsResult = [];
         let selectedTrain = this.trains.find(train => train.i === Number(this.selectedBets[currentPlayer].trainId));
-        console.log("evaluateSips selectedTrain: "+ JSON.stringify(selectedTrain));
+        //console.log("evaluateSips selectedTrain: "+ JSON.stringify(selectedTrain));
 
         let arrayIsEmpty = selectedTrain.m.length === 0 && JSON.stringify(selectedTrain.m) === '[]';
 
         let trainMessage = arrayIsEmpty ? [-1] : selectedTrain.m;
 
-        // let trainMessage = selectedTrain.m;
-        //
-        // if (arrayIsEmpty) {
-        //     trainMessage = -1;
-        // }else{
-        //     trainMessage = selectedTrain.m;
-        // }
-
         for (let betCode of this.selectedBets[currentPlayer].bets) {
-            console.log("evaluateSips betCode: "+ betCode);
+            //console.log("evaluateSips betCode: "+ betCode);
 
             // Find the corresponding bet in the bets array
             let bet = bets.find(bet => bet.code === betCode);

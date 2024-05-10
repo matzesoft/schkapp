@@ -1,7 +1,7 @@
 export const bets = [
     {
         code: -1,
-        message: "Kein Ereigniss",
+        message: "Kein Ereignis",
         sips: 1
     },
     {

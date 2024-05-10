@@ -7,8 +7,6 @@
         const bet = bets.find(bet => bet.code === id);
         return bet ? bet.message : "Unbekannte Wette";
     }
-    console.log("Game Res: "+JSON.stringify(gameResults));
-
     function actualTrainChanges(playerIndex){
         let trainChanges = gameResults[playerIndex].trainMessage;
         let trainChangesString = "";
@@ -36,7 +34,7 @@
                 </p>
             {/each}
             <p>
-                Der Zug hatt: {actualTrainChanges(index)}
+                Der Zug hat: {actualTrainChanges(index)}
             </p>
         </div>
     {/each}
