@@ -1,23 +1,24 @@
 
 <script>
-    import {bets} from "$lib/game/bets.js";
-
+    import { bets } from "$lib/game/bets.js";
     export let gameResults = [];
 
     function getBetName(id) {
         const bet = bets.find(bet => bet.code === id);
         return bet ? bet.message : "Unbekannte Wette";
     }
+    console.log("Game Res: "+JSON.stringify(gameResults));
 
-    function getTrainMessages(result) {
-        return result.trainMessage.map(message => {
-            return getBetName(message);
-        }).join(', ');
+    function actualTrainChanges(playerIndex){
+        let trainChanges = gameResults[playerIndex].trainMessage;
+        let trainChangesString = "";
+        for(let i = 0; i < trainChanges.length; i++){
+            trainChangesString += getBetName(Number(trainChanges[i])) + ", ";
+            if (i === trainChanges.length - 1) trainChangesString = trainChangesString.slice(0, -2);
+        }
+         return trainChangesString;
     }
 
-    function actualTrainChanges(){
-        return gameResults.map(getTrainMessages).join(', ');
-    }
 
 </script>
 
@@ -35,7 +36,7 @@
                 </p>
             {/each}
             <p>
-                Tatsächlich hatte der Zug: {actualTrainChanges()}
+                Der Zug hatt: {actualTrainChanges(index)}
             </p>
         </div>
     {/each}
