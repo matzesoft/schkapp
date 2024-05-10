@@ -1,12 +1,24 @@
 
 <script>
-    import { bets } from "$lib/game/bets.js";
+    import {bets} from "$lib/game/bets.js";
+
     export let gameResults = [];
 
     function getBetName(id) {
         const bet = bets.find(bet => bet.code === id);
         return bet ? bet.message : "Unbekannte Wette";
     }
+
+    function getTrainMessages(result) {
+        return result.trainMessage.map(message => {
+            return getBetName(message);
+        }).join(', ');
+    }
+
+    function actualTrainChanges(){
+        return gameResults.map(getTrainMessages).join(', ');
+    }
+
 </script>
 
 <main>
@@ -22,6 +34,9 @@
                     {getBetName(bet.id)} ist {#if bet.isCorrect}richtig{:else}falsch{/if}
                 </p>
             {/each}
+            <p>
+                Tatsächlich hatte der Zug: {actualTrainChanges()}
+            </p>
         </div>
     {/each}
 </main>

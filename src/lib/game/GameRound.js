@@ -81,6 +81,16 @@ export class GameRound {
 
         let arrayIsEmpty = selectedTrain.m.length === 0 && JSON.stringify(selectedTrain.m) === '[]';
 
+        let trainMessage = arrayIsEmpty ? [-1] : selectedTrain.m;
+
+        // let trainMessage = selectedTrain.m;
+        //
+        // if (arrayIsEmpty) {
+        //     trainMessage = -1;
+        // }else{
+        //     trainMessage = selectedTrain.m;
+        // }
+
         for (let betCode of this.selectedBets[currentPlayer].bets) {
             console.log("evaluateSips betCode: "+ betCode);
 
@@ -94,6 +104,7 @@ export class GameRound {
                 }
                 continue;
             }
+
             // Check if the bet exists in the messageCodes of the selected train
             if (selectedTrain.m.includes(betCode.toString())) {
                 // If it does, the bet is correct
@@ -108,8 +119,7 @@ export class GameRound {
                 }
             }
         }
-
-        return { totalSips, betsResult };
+        return { totalSips, betsResult, trainMessage };
     }
 
     toJson() {
