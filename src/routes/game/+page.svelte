@@ -28,10 +28,8 @@
             method="POST"
             action="?/nextRoundStep"
             use:enhance={() => {
-		        // prevent default callback from resetting the form
-		        return ({ update }) => {
-			        update({ reset: false });
-		        };
+		        selectedTrainFromComponent = null;
+                selectedBetsFromComponent = [];
 	        }}
     >
         {#if gameStep === choosePlayerCountStep}
