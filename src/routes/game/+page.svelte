@@ -3,6 +3,7 @@
     import SelectTrains from "./SelectTrains.svelte";
     import PlaceBet from "./PlaceBet.svelte";
     import EndScreen from "./EndScreen.svelte";
+    import {enhance} from '$app/forms';
     import {
         choosePlayerCountStep,
         chooseTrainStep,
@@ -23,7 +24,16 @@
 </script>
 
 <div>
-    <form method="POST" action="?/nextRoundStep">
+    <form
+            method="POST"
+            action="?/nextRoundStep"
+            use:enhance={() => {
+		        // prevent default callback from resetting the form
+		        return ({ update }) => {
+			        update({ reset: false });
+		        };
+	        }}
+    >
         {#if gameStep === choosePlayerCountStep}
             <div class="title">
                 <h3>Wähle die Anzahl an Spielern:</h3>
