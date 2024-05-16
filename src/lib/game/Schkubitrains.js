@@ -1,5 +1,6 @@
 import {getTraindata} from "$lib/server/db_api/db_api.js";
 import {trainsPerRoundCount} from "$lib/game/constants.js";
+import {bets} from "$lib/game/bets.js";
 
 export class Schkubitrains {
     static cookieName = 'schkubitrains';
@@ -45,7 +46,7 @@ export class Schkubitrains {
         return this.trains;
     }
 
-    transformTrainData(train, inderIndex){
+    transformTrainData(train, inderIndex) {
         // Create start and end stations strings
         let arrivalStartStation = typeof train.arrival.vonIrgendwoNachStation === 'string'
             ? train.arrival.vonIrgendwoNachStation.split('|')[0] + " -> "
@@ -56,16 +57,30 @@ export class Schkubitrains {
             : null;
 
         // Create messageCodes array
+        let messageCodes = [];
         let arrivalMessages = train.trainChanges?.arrival.ankunftNachricht;
         let departureMessages = train.trainChanges?.departure.abfahrtNachricht;
-        let messageCodes = [];
 
-        if (arrivalMessages !== undefined && departureMessages !== undefined) {
-            let messages = train.trainChanges?.arrival.ankunftNachricht.concat(train.trainChanges?.departure.abfahrtNachricht);
+        let messages = [];
+        if (arrivalMessages === undefined && departureMessages !== undefined) {
+            messages = departureMessages;
+        } else if (departureMessages === undefined && arrivalMessages !== undefined) {
+            messages = arrivalMessages;
+        } else if (arrivalMessages !== undefined && departureMessages !== undefined) {
+            messages = arrivalMessages.concat(departureMessages);
+        }
 
-            for (let i = 0; i < messages.length; i++) {
-                if (messages[i] !== undefined) {
-                    messageCodes.push(messages[i].message);
+        for (let i = 0; i < messages.length; i++) {
+            if (messages[i] !== undefined) {
+                const code = messages[i].message;
+
+                // Only add events the player can bet on
+                const eventExistsAsBet = bets.find(bet =>  bet.code === Number(code));
+                // Check if the event code is already added
+                const alreadyAdded = messageCodes.includes(code);
+
+                if (eventExistsAsBet !== undefined && !alreadyAdded) {
+                    messageCodes.push(code);
                 }
             }
         }
@@ -87,12 +102,12 @@ export class Schkubitrains {
 
     // Stores each train in a separate cookie
     storeInCookies(cookies) {
-        let jsonData = JSON.stringify({ gRST: this.gameRoundStartTime });
-        cookies.set(Schkubitrains.cookieName, jsonData, { path: '/' });
+        let jsonData = JSON.stringify({gRST: this.gameRoundStartTime});
+        cookies.set(Schkubitrains.cookieName, jsonData, {path: '/'});
 
         for (let i = 0; i < this.trains.length; i++) {
             let schkubitrain = JSON.stringify(this.trains[i]);
-            cookies.set(Schkubitrains.cookieName + i, schkubitrain, { path: '/' });
+            cookies.set(Schkubitrains.cookieName + i, schkubitrain, {path: '/'});
         }
     }
 }

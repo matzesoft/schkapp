@@ -34,7 +34,7 @@
                 </p>
             {/each}
             <p>
-                Der Zug hat: {actualTrainChanges(index)}
+                Alle richtigen Ereignisse: {actualTrainChanges(index)}
             </p>
         </div>
     {/each}
