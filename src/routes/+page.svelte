@@ -1,14 +1,18 @@
 <div>
     <span>
-        <button class="center-button">
-            <a href="/game"> Spiel starten </a>
-        </button>
+        <a href="/game" class="center-button">
+            <button class="center-button">
+                Spiel starten
+            </button>
+        </a>
     </span>
 
     <span>
-        <button class="center-button">
-            <a href="/how-to-play"> Anleitung </a>
-        </button>
+        <a href="/how-to-play" class="center-button">
+            <button class="center-button">
+                Anleitung
+            </button>
+        </a>
     </span>
 </div>
 
