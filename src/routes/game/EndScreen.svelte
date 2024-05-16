@@ -11,7 +11,6 @@
         let trainChanges = gameResults[playerIndex].trainMessage;
         let trainChangesString = "";
         for(let i = 0; i < trainChanges.length; i++){
-            if(getBetName(Number(trainChanges[i])) === "Unbekannte Wette") continue;
             trainChangesString += getBetName(Number(trainChanges[i])) + ", ";
             if (i === trainChanges.length - 1) trainChangesString = trainChangesString.slice(0, -2);
         }
