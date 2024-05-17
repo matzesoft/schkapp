@@ -1,5 +1,6 @@
 .idea
 .DS_Store
+src/.DS_Store
 package-lock.json
 /node_modules
 .svelte-kit
