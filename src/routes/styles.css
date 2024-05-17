@@ -5,9 +5,6 @@
     font-weight: 400;
     font-style: normal;
     background-image: url("/src/lib/img/party-hintergrund.jpg");
-    background-size: cover;
-    background-position: center; 
-    background-repeat: no-repeat; 
 }
 
 button {
