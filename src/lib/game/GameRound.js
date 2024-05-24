@@ -105,7 +105,7 @@ export class GameRound {
             } else {
                 betsResult.push(({id: betCode, isCorrect: false}))
                 if(bet){
-                 totalSips -= bet.sips;
+                 totalSips -= (bet.sips / 2);
                 }
             }
         }
