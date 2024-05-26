@@ -56,7 +56,7 @@ When hammered.
 
 ## Run the project
 To run the project you need your own Deutsche Bahn Timetable API Keys. You can request them here: [developers.deutschebahn.com](https://developers.deutschebahn.com/db-api-marketplace/apis/product/timetables).
-After you got your keys, past them inside the `.env_template` file and rename it to `.env`.
+After you got your keys, paste them inside the `.env_template` file and rename it to `.env`.
 
 After that you can just run `npm run dev`.
 
@@ -85,7 +85,7 @@ Schkapp contains of three routes:
 * `/how-to-play` - Information on how to play the game.
 
 ### Hosting
-Schkapp is hosted using [Cloudflare pages](https://pages.cloudflare.com) and the [SvelteKit Cloudflare adapter](https://kit.svelte.dev/docs/adapter-cloudflare). Cloudflare automatically executes `vite build` and deploys to [schkapp.pages.dev](https://schkapp.pages.dev)
+Schkapp is hosted using [Cloudflare pages](https://pages.cloudflare.com) and the [SvelteKit Cloudflare adapter](https://kit.svelte.dev/docs/adapter-cloudflare). Cloudflare automatically executes `vite build` and deploys to [schkapp.pages.dev](https://schkapp.pages.dev).
 
 ## Have fun
 Schkapp was build to have fun, so stop coding and take a break 🍻 If you are a nerdy enough to keep coding, you can open an issue or send an email if you have any question or suggestions.
